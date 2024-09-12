@@ -8,27 +8,30 @@ class NextButton extends StatelessWidget {
     required this.child,
     this.color,
     this.width,
+    this.padding,
   });
 
   final void Function()? onTap;
   final Widget child;
   Color? color;
   double? width;
+  final  padding;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: padding,
         alignment: Alignment.center,
         width: width,
-        height: 40,
+        height: 50,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          color: color ?? Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(10),
+          // border: Border.all(
+          //   color: Theme.of(context).colorScheme.secondary,
+          // ),
+          color: color ?? null,
         ),
         // padding: const EdgeInsets.all(10),
         child: child,
