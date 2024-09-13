@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 import 'package:futela/language/language_preferences.dart';
 import 'package:futela/main_page.dart';
+import 'package:futela/screens/details_screen.dart';
 import 'package:futela/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class _MyAppState extends State<MyApp> {
         theme: provider.themeData,
         initialRoute: '/main',
         routes: {
-          '/main': (context) => MainPage(),
+          '/main': (context) =>  ProductPage(),
           // Add other routes if needed
         },
       );

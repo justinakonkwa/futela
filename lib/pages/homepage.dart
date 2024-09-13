@@ -41,7 +41,7 @@ class _HomepageState extends State<Homepage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                       8.0), // Définir borderRadius si non défini
-                  color:Theme.of(context).highlightColor,
+                  color: Theme.of(context).highlightColor,
                 ),
                 child: Row(
                   children: [
@@ -65,7 +65,6 @@ class _HomepageState extends State<Homepage> {
                       FontAwesomeIcons.city,
                       FontAwesomeIcons.building,
                       FontAwesomeIcons.building,
-
                       FontAwesomeIcons.houseChimneyWindow
                     ];
 
