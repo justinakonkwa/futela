@@ -16,8 +16,8 @@ ThemeData lightMode = ThemeData(
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
-    background: Color(0xff272829),
-    primary: Color(0xff5B4400),
+    background: Color(0xff191a1a),
+    primary: Color(0xffea2708),
     secondary: Color(0xff61677A),
   ),
   appBarTheme: AppBarTheme(

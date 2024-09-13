@@ -43,6 +43,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   store_redirect: ^2.0.2
   fluentui_system_icons: ^1.1.257
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
