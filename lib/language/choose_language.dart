@@ -1,40 +1,48 @@
-
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/language/language_preferences.dart';
 
 
-
-void showI18nDialog({required BuildContext context}) {
-  showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-
-            title: Text(translate('language.selection.title')),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  title: Text(translate('language.name.en')),
-                  onTap: () {
-                    Navigator.pop(context, 'en_US');
-                    TranslatePreferences('en_US');
-                  },
-                ),
-                ListTile(
-                  title: Text(translate('language.name.fr')),
-                  onTap: () {
-                    Navigator.pop(context, 'fr');
-                    TranslatePreferences('fr');
-                  },
-                ),
-              ],
-            ),
-            actions: [],
-          )
-    ).then((String? value) {
-      if (value != null) changeLocale(context, value);
+void showLanguagePopup({required BuildContext context}) {
+  showMenu<String>(
+    context: context,
+    position: RelativeRect.fromLTRB(
+        100,     // Déplacement horizontal du menu par rapport au point d'ancrage
+        325.0,   // Déplacement vertical du menu par rapport au point d'ancrage
+        20,
+        0
+    ),
+    items: [
+      PopupMenuItem<String>(
+        value: 'en_US',
+        child: Container(
+          height: 40,  // Hauteur de chaque élément du menu
+          child: Center(
+            child: Text(translate('language.en')), // Texte pour l'anglais
+          ),
+        ),
+      ),
+      PopupMenuItem<String>(
+        value: 'fr',
+        child: Container(
+          height: 40,  // Hauteur de chaque élément du menu
+          child: Center(
+            child: Text(translate('language.fr')), // Texte pour le français
+          ),
+        ),
+      ),
+    ],
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+      side: BorderSide(color: Colors.grey, width: 1),
+    ),
+    color: Theme.of(context).colorScheme.background,
+  ).then((String? value) {
+    if (value != null) {
+      TranslatePreferences(value);
+      changeLocale(context, value);
+    }
   });
 }
 

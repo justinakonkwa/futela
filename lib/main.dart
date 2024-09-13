@@ -1,16 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:futela/authentification/login_page.dart';
-import 'package:futela/authentification/signup_page.dart';
+
 import 'package:futela/language/language_preferences.dart';
-import 'package:futela/widgets/theme_provider.dart';
+import 'package:futela/main_page.dart';
+import 'package:futela/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensure plugin services are initialized
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure plugin services are initialized
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? savedLanguage = prefs.getString('language');
@@ -25,11 +24,8 @@ void main() async {
   );
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => Themeprovider()),
-        // ChangeNotifierProvider(create: (_) => /StockNotifier()),
-      ],
+    ChangeNotifierProvider<ThemeProvider>(
+      create: (context) => ThemeProvider()..initializeTheme(),
       child: LocalizedApp(
         delegate,
         const MyApp(),
@@ -50,25 +46,25 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return LocalizationProvider(
-      state: LocalizationProvider.of(context).state,
-      child: MaterialApp(
-        localizationsDelegates: const [
+    return Consumer<ThemeProvider>(builder: (context, provider, child) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          localizationDelegate,
         ],
         supportedLocales: localizationDelegate.supportedLocales,
         locale: localizationDelegate.currentLocale,
-        theme: Provider.of<Themeprovider>(context).themeData,
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/login',
+        theme: provider.themeData,
+        initialRoute: '/main',
         routes: {
-          '/signup':(context)=> const SignupPage(),
-          '/login':(context)=> const LoginPage(),
-
+          '/main': (context) => MainPage(),
+          // Add other routes if needed
         },
-      ),
-    );
+      );
+    });
   }
 }

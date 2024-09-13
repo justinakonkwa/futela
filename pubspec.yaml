@@ -40,6 +40,9 @@ dependencies:
   provider: ^6.1.2
   flutter_localization: ^0.2.2
   country_code_picker: ^3.0.0
+  intl_phone_field: ^3.2.0
+  store_redirect: ^2.0.2
+  fluentui_system_icons: ^1.1.257
 
 dev_dependencies:
   flutter_test:

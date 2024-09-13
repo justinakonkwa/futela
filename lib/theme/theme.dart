@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ ThemeData lightMode = ThemeData(
   ),
 );
 
-ThemeData dartMode = ThemeData(
+ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
     background: Color(0xff272829),
