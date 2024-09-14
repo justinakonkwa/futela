@@ -4,13 +4,16 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 import 'package:futela/language/language_preferences.dart';
 import 'package:futela/main_page.dart';
+import 'package:futela/pages/intro_screens/Intro.dart';
 import 'package:futela/screens/details_screen.dart';
 import 'package:futela/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure plugin services are initialized
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure plugin services are initialized
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? savedLanguage = prefs.getString('language');
@@ -47,25 +50,26 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return Consumer<ThemeProvider>(builder: (context, provider, child) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate,
-          localizationDelegate,
-        ],
-        supportedLocales: localizationDelegate.supportedLocales,
-        locale: localizationDelegate.currentLocale,
-        theme: provider.themeData,
-        initialRoute: '/main',
-        routes: {
-          '/main': (context) =>  ProductPage(),
-          // Add other routes if needed
-        },
-      );
-    });
+    return Consumer<ThemeProvider>(
+      builder: (context, provider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+            localizationDelegate,
+          ],
+          supportedLocales: localizationDelegate.supportedLocales,
+          locale: localizationDelegate.currentLocale,
+          theme: provider.themeData,
+          initialRoute: '/main',
+          routes: {
+            '/main': (context) => Intro(),
+          },
+        );
+      },
+    );
   }
 }

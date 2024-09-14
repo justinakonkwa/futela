@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:futela/widgets/app_text.dart';
@@ -29,10 +28,10 @@ class _ProductPageState extends State<ProductPage> {
   ];
 
   final List<int> colorValue = [
-    0xFF123456, // Couleurs de démonstration (à remplacer par vos couleurs)
+    0xFF123456,
     0xFF654321,
     0xFFabcdef,
-    0xFF123456, // Couleurs de démonstration (à remplacer par vos couleurs)
+    0xFF123456,
     0xFF654321,
   ];
 
@@ -51,19 +50,18 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     if (imagePath.isEmpty || colorValue.isEmpty) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: Text('Aucune donnée disponible'),
         ),
       );
     }
-
     return Scaffold(
       appBar: AppBar(
         leading: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 2.0),
+          children:  [
+            const Padding(
+              padding: EdgeInsets.only(left: 2.0),
               child: Icon(
                 Icons.arrow_back_ios,
               ),
