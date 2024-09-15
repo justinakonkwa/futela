@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/constantes.dart';
 import '../../generated/assets.dart';
@@ -15,7 +14,6 @@ class IntroPage2 extends StatelessWidget {
       Assets.introIntro7,
       Assets.introIntro3,
       Assets.introIntro2,
-      // Assets.assetsIntro8,
     ];
     return Container(
       alignment: Alignment.center,

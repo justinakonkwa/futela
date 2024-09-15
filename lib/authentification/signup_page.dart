@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
@@ -19,23 +20,25 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height,
             maxWidth: double.maxFinite,
           ),
-          color: Colors.brown[50],
-          // decoration: const BoxDecoration(
-          //   gradient: LinearGradient(
-          //     colors: [
-          //       Colors.blueGrey,
-          //       Colors.blueGrey,
-          //     ],
-          //     begin: Alignment.topLeft,
-          //     end: Alignment.centerRight,
-          //   ),
-          // ),
+
+          decoration:  BoxDecoration(
+            borderRadius: BorderRadius.circular(20,), color: Colors.brown[50],
+            // gradient: LinearGradient(
+            //   colors: [
+            //     Colors.blueGrey,
+            //     Colors.blueGrey,
+            //   ],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.centerRight,
+            // ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -49,13 +52,13 @@ class _SignupPageState extends State<SignupPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          child: Icon(CupertinoIcons.arrow_left)),
-                      sizedbox,
-                      sizedbox,
+                      // GestureDetector(
+                      //     onTap: (){
+                      //       Navigator.pushNamed(context, '/login');
+                      //     },
+                      //     child: Icon(CupertinoIcons.arrow_left)),
+                      // sizedbox,
+                      // sizedbox,
                       AppTextLarge(
                         text: 'Register',
                         size: 30,
@@ -69,15 +72,15 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               Expanded(
-                flex: 5,
+                flex: 10,
                 child: Container(
-                  // decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(30),
-                  //     topRight: Radius.circular(30),
-                  //   ),
-                  //   color: Colors.brown[50],
-                  // ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    color: Colors.brown[50],
+                  ),
                   width: double.maxFinite,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

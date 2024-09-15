@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
           theme: provider.themeData,
           initialRoute: '/main',
           routes: {
-            '/main': (context) => Intro(),
+            '/main': (context) => MainPage(),
           },
         );
       },

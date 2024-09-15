@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show Uint8List;
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:futela/authentification/signup_page.dart';
 import 'package:futela/language/choose_language.dart';
 import 'package:futela/theme/theme_provider.dart';
 import 'package:futela/widgets/app_text.dart';
@@ -31,17 +32,14 @@ class _UserDetailsPageState extends State<UserDetailsPage>
   late TabController _tabController;
   late PageController _pageController;
   int _currentPageIndex = 0;
-  String number = ''; // Initialize with an empty string
+  String number = '';
 
-  //User
-  TextEditingController numbers = TextEditingController(text:'975 024 7',);
-  TextEditingController name = TextEditingController(text:'Futela',);
-  TextEditingController adress = TextEditingController(text:'Bobanga, Q/beau marché,/kinshasa',);
+  TextEditingController numbers = TextEditingController(text: '975 024 7');
+  TextEditingController name = TextEditingController(text: 'Futela');
+  TextEditingController adress =
+      TextEditingController(text: 'Bobanga, Q/beau marché,/kinshasa');
+
   bool isLoading = false;
-  Uint8List? imageFile;
-  String imageUserUrl = '';
-  String imageDecode = '';
-
   bool isLoadingLogout = false;
 
   // -------- fonction to select a picture or to take a picture ----------
@@ -187,7 +185,10 @@ class _UserDetailsPageState extends State<UserDetailsPage>
         surfaceTintColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         foregroundColor: Theme.of(context).colorScheme.onSecondary,
-        title: AppText(text: 'Profil'),
+        title: AppText(
+          text: 'Profil',
+          color: Theme.of(context).colorScheme.inverseSurface,
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -205,34 +206,14 @@ class _UserDetailsPageState extends State<UserDetailsPage>
                         height: 130,
                         width: 130,
                         padding: const EdgeInsets.all(50),
-                        decoration: imageDecode.isNotEmpty
-                            ? BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                  width: 2,
-                                ),
-                                image: DecorationImage(
-                                  image: MemoryImage(base64Decode(imageDecode)),
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                  width: 2,
-                                ),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary,
-                              ),
-                        child: isLoading
-                            ? CupertinoActivityIndicator(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                              )
-                            : null,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            width: 2,
+                          ),
+                          color: Theme.of(context).highlightColor,
+                        ),
                       ),
                       Positioned(
                         child: InkWell(
@@ -260,42 +241,76 @@ class _UserDetailsPageState extends State<UserDetailsPage>
                 ],
               ),
               sizedbox,
-              TabBar(
-                controller: _tabController,
-                automaticIndicatorColorAdjustment: false,
-                onTap: (index) {
-                  // Vérifiez si le widget est encore monté avant de mettre à jour l'état
-                  if (mounted) {
-                    setState(() {
-                      _currentPageIndex = index;
-                    });
-                  }
-                },
-                tabs: [
-                  Tab(text: translate('User').toUpperCase()),
-                  Tab(text: translate('Files').toUpperCase()),
-                  Tab(text: translate('Settings').toUpperCase()),
-                ],
-                dividerColor: Colors.transparent,
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                      width: 3.0, color: Theme.of(context).colorScheme.primary),
-                  borderRadius: borderRadius,
+              Container(
+                padding: EdgeInsets.only(
+                    left: 5.0, right: 5.0, bottom: 5.0, top: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).highlightColor,
                 ),
-                overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return Colors
-                          .white; // Couleur de l'indicateur pour l'onglet sélectionné
-                    }
-                    return Colors
-                        .transparent; // Couleur transparente pour l'onglet non sélectionné
-                  },
+
+                height: 45.0, // Hauteur totale du TabBar
+                child: TabBar(
+                  controller: _tabController,
+                  automaticIndicatorColorAdjustment: false,
+                  tabs: [
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal:
+                                8.0), // Espace de 8 pixels à gauche et à droite
+                        child: Container(
+                          height: 40.0, // Hauteur fixe pour chaque onglet
+                          alignment: Alignment.center,
+                          child: Text(
+                            translate('User'),
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Container(
+                          height: 40.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            translate('Files'),
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Container(
+                          height: 40.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            translate('Settings'),
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  dividerColor: Colors.transparent,
+
+                  indicator: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(
+                        8), // Coins arrondis pour l'indicateur
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
+
+                  labelColor: Theme.of(context).colorScheme.inversePrimary,
+                  unselectedLabelColor: Colors.grey,
+                  labelPadding:
+                      EdgeInsets.zero, // Réinitialiser le padding des labels
                 ),
-                labelColor: Theme.of(context).colorScheme.primary,
-                unselectedLabelColor: Colors.grey,
               ),
-              sizedbox,
               Expanded(
                 child: PageView(
                   controller: _pageController,
@@ -326,7 +341,6 @@ class _UserDetailsPageState extends State<UserDetailsPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         sizedbox,
-
         Container(
           decoration: BoxDecoration(
               borderRadius: borderRadius,
@@ -339,6 +353,7 @@ class _UserDetailsPageState extends State<UserDetailsPage>
             controller: name,
             placeholder: '',
             style: TextStyle(
+              color: Theme.of(context).colorScheme.inverseSurface,
               fontFamily: 'Montserrat',
             ),
             keyboardType: TextInputType.phone,
@@ -367,17 +382,16 @@ class _UserDetailsPageState extends State<UserDetailsPage>
             controller: adress,
             placeholder: 'Bobanga, Q/beau marché,/kinshasa',
             style: TextStyle(
+              color: Theme.of(context).colorScheme.inverseSurface,
               fontFamily: 'Montserrat',
             ),
             keyboardType: TextInputType.phone,
             decoration: BoxDecoration(
               borderRadius: borderRadius,
-              // border: Border.all(
-              //     color: errorText != null ? Colors.red : Colors.grey),
             ),
             prefix: Padding(
               padding: const EdgeInsets.only(left: 15.0),
-              child: Icon(CupertinoIcons.location_solid ),
+              child: Icon(CupertinoIcons.location_solid),
             ),
           ),
         ),
@@ -430,7 +444,7 @@ class _UserDetailsPageState extends State<UserDetailsPage>
         sizedbox,
         Center(
           child: NextButton(
-            color: Colors.grey,
+            color: Theme.of(context).colorScheme.primary,
             onTap: () async {},
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -441,14 +455,50 @@ class _UserDetailsPageState extends State<UserDetailsPage>
                 ),
                 AppText(
                   text: translate(
-                    'profile.button_1',
+                    'Sauvegarde',
                   ),
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
               ],
             ),
           ),
-        )
+        ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     color: Theme.of(context).colorScheme.primary,
+        //     borderRadius: borderRadius,
+        //   ),
+        //   child: MaterialButton(
+        //     onPressed: () {
+        //       showModalBottomSheet(
+        //
+        //
+        //         backgroundColor: Colors.transparent,
+        //         context: context,
+        //         isScrollControlled: true,
+        //         builder: (BuildContext context) {
+        //           return Container(
+        //
+        //             height: MediaQuery.of(context).size.height * 0.8, // Hauteur fixe
+        //             padding: const EdgeInsets.all(
+        //                 .0), // Optionnel : marges internes
+        //             decoration: BoxDecoration(
+        //               color:Colors.transparent,
+        //               borderRadius: const BorderRadius.vertical(
+        //                 top: Radius.circular(20), // Arrondir les bords du haut
+        //               ),
+        //             ),
+        //             child: SignupPage(), // Contenu de la feuille modale
+        //           );
+        //         },
+        //       );
+        //     },
+        //     child: AppText(
+        //       text: translate('connexion.button_2').toUpperCase(),
+        //       color: Theme.of(context).colorScheme.onBackground,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -458,40 +508,43 @@ class _UserDetailsPageState extends State<UserDetailsPage>
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 0.0,
+          crossAxisSpacing: 10.0,
         ),
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                // child: buildNetworkImage(
-                //     videos[index].imageUrl, false, 0),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 1500,
-                  height: 200.0,
-                  decoration: BoxDecoration(
-                    borderRadius: borderRadius,
-                    color: Colors.black12,
-                  ),
-                  child: Icon(
-                    FluentIcons.image_16_filled,
-                    color: Theme.of(context).colorScheme.onBackground,
+          return Container(
+            padding: EdgeInsets.only(top: 10),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  // child: buildNetworkImage(
+                  //     videos[index].imageUrl, false, 0),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 150.0,
+                    height: 200.0,
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadius,
+                      color: Theme.of(context).highlightColor,
+                    ),
+                    child: Icon(
+                      FluentIcons.image_16_filled,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {},
         child: Icon(
           FluentIcons.add_48_regular,
@@ -578,8 +631,8 @@ class _UserDetailsPageState extends State<UserDetailsPage>
                 ontap: () {
                   // donner les avis
                   StoreRedirect.redirect(
-                    androidAppId: 'com.bitz.iskiling',
-                    iOSAppId: 'com.eklezia.communaute',
+                    androidAppId: 'com.naara.futela',
+                    iOSAppId: 'com.naara.futela',
                   );
                 },
                 context: context,

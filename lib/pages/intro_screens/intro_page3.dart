@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/constantes.dart';
 import '../../generated/assets.dart';

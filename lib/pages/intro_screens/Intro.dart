@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/bouton_next.dart';
 

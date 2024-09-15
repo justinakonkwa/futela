@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:futela/pages/homepage.dart';
-import 'package:futela/pages/userpage.dart';
+import 'package:futela/pages/menu/chatpage.dart';
+import 'package:futela/pages/menu/homepage.dart';
+import 'package:futela/pages/menu/userpage.dart';
 
 class MainPage extends StatefulWidget {
   final int initialIndex;
@@ -17,14 +18,14 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     Homepage(),
-    Homepage(),
+    Chatpage(),
     UserDetailsPage(),
   ];
 
   void initState() {
     super.initState();
     currentIndex =
-        widget.initialIndex; // Définit l'index initial basé sur le paramètre
+        widget.initialIndex;
   }
 
   @override
