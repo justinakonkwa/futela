@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:futela/screens/categorie_details.dart';
 import 'package:futela/screens/details_screen.dart';
+import 'package:futela/screens/search_screen.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/constantes.dart';
@@ -19,13 +20,88 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(CupertinoIcons.list_bullet_below_rectangle),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(CupertinoIcons.list_bullet_below_rectangle),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Icon(CupertinoIcons.bell),
           ),
         ],
+      ),
+      drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.6,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+                decoration: BoxDecoration(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Theme.of(context).highlightColor,
+                    ),
+                    sizedbox,
+                    sizedbox,
+                    AppTextLarge(
+                      text: 'Futela App',
+                      size: 18,
+                    )
+                  ],
+                )),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: AppText(text: 'Accueil'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.search),
+              title: AppText(text: 'Recherche'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.category),
+              title: AppText(text: 'Catégories'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CategorieDetails()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: AppText(text: 'Paramètres'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: AppText(text: 'Déconnexion'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -35,32 +111,41 @@ class _HomepageState extends State<Homepage> {
             children: [
               AppTextLarge(text: 'Futela', size: 30),
               const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                width: double.infinity, //
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Theme.of(context).highlightColor,
-                ),
-                child: Row(
-                  children: [
-                    const Icon(CupertinoIcons.search),
-                    AppText(text: 'Search ...'),
-                    const Spacer(),
-                    const Icon(CupertinoIcons.mic_solid),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Theme.of(context).highlightColor,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(CupertinoIcons.search),
+                      AppText(text: 'Search ...'),
+                      const Spacer(),
+                      const Icon(CupertinoIcons.mic_solid),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 10), // Espace entre les éléments
+              const SizedBox(height: 10),
               Container(
                 padding: EdgeInsets.zero,
-                height: 100, // Définir une hauteur fixe pour la ListView
+                height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    // Liste d'icônes
                     final List<IconData> icons = [
                       FontAwesomeIcons.house,
                       FontAwesomeIcons.city,
@@ -73,7 +158,7 @@ class _HomepageState extends State<Homepage> {
                       'House',
                       'Apartment',
                       'Skyscrape',
-                      'building',
+                      'Building',
                       'House',
                     ];
                     return GestureDetector(
@@ -97,8 +182,8 @@ class _HomepageState extends State<Homepage> {
                             children: [
                               Icon(
                                 icons[index],
-                                size: 30.0, // Taille de l'icône
-                                color: Colors.white, // Couleur de l'icône
+                                size: 30.0,
+                                color: Colors.white,
                               ),
                               AppText(text: titles[index]),
                             ],
@@ -110,22 +195,17 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
               const SizedBox(height: 10),
-
               AppTextLarge(text: 'Featured Listing'),
               const SizedBox(height: 10),
               Container(
-                height: MediaQuery.of(context)
-                    .size
-                    .height, // Hauteur fixée pour le GridView
+                height: MediaQuery.of(context).size.height,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Nombre de colonnes
-                    crossAxisSpacing:
-                        15.0, // Espacement horizontal entre les colonnes
-                    mainAxisSpacing:
-                        20.0, // Espacement vertical entre les lignes
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15.0,
+                    mainAxisSpacing: 20.0,
                   ),
-                  itemCount: 15, // Nombre d'éléments dans le GridView
+                  itemCount: 15,
                   itemBuilder: (context, index) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +230,7 @@ class _HomepageState extends State<Homepage> {
                         ),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               CupertinoIcons.location_solid,
                               size: 15,
                             ),
@@ -175,33 +255,20 @@ class _HomepageState extends State<Homepage> {
                               size: 15,
                               color: Colors.green,
                             ),
-                            const SizedBox(
-                              width: 5,
-                            ),
+                            const SizedBox(width: 5),
                             AppText(text: '5 Bds'),
-                            const SizedBox(
-                              width: 12,
-                            ),
+                            const SizedBox(width: 12),
                             const Icon(
                               FontAwesomeIcons.couch,
                               size: 15,
                               color: Colors.blue,
                             ),
-                            const SizedBox(
-                              width: 5,
-                            ),
+                            const SizedBox(width: 5),
                             AppText(text: 'Bds'),
-                            const SizedBox(
-                              width: 12,
-                            ),
+                            const SizedBox(width: 12),
                             const FaIcon(FontAwesomeIcons.shower, size: 15.0),
-                            const SizedBox(
-                              width: 5,
-                            ),
+                            const SizedBox(width: 5),
                             AppText(text: '5 Bp'),
-                            // sizedbox2,
-                            // Icon(CupertinoIcons.search),
-                            // AppText(text: 'Bds'),
                           ],
                         ),
                       ],
