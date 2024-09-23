@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
             label: translate("menu.menu_2"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
+            icon: Icon(CupertinoIcons.gear_big),
             label: translate("menu.menu_3"),
           ),
         ],

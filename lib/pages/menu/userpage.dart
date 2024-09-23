@@ -442,25 +442,24 @@ class _UserDetailsPageState extends State<UserDetailsPage>
         ),
         sizedbox,
         sizedbox,
-        Center(
-          child: NextButton(
-            color: Theme.of(context).colorScheme.primary,
-            onTap: () async {},
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  FluentIcons.save_edit_24_regular,
-                  color: Theme.of(context).colorScheme.onBackground,
+        NextButton(
+          height: 40,
+          color: Theme.of(context).colorScheme.primary,
+          onTap: () async {},
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                FluentIcons.save_edit_24_regular,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              AppText(
+                text: translate(
+                  'Sauvegarde',
                 ),
-                AppText(
-                  text: translate(
-                    'Sauvegarde',
-                  ),
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ],
-            ),
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ],
           ),
         ),
         // Container(
@@ -545,8 +544,8 @@ class _UserDetailsPageState extends State<UserDetailsPage>
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: const CircleBorder(),
         onPressed: () {},
+        shape: CircleBorder(),
         child: Icon(
           FluentIcons.add_48_regular,
           color: Theme.of(context).colorScheme.onBackground,
