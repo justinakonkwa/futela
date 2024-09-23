@@ -9,12 +9,14 @@ class NextButton extends StatelessWidget {
     this.color,
     this.width,
     this.padding,
+    this.height
   });
 
   final void Function()? onTap;
   final Widget child;
   Color? color;
   double? width;
+  double? height;
   final  padding;
 
   @override
@@ -25,7 +27,8 @@ class NextButton extends StatelessWidget {
         padding: padding,
         alignment: Alignment.center,
         width: width,
-        height: 50,
+
+        height: height??50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           // border: Border.all(

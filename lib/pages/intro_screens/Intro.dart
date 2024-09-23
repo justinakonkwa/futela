@@ -92,7 +92,7 @@ class _IntroState extends State<Intro> {
                         ? NextButton(
                             onTap: () {
                               Navigator.pushNamedAndRemoveUntil(
-                                  context, '/connexion', (route) => false);
+                                  context, '/main', (route) => false);
                             },
                             child: AppText(
                               text: "START",

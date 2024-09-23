@@ -545,6 +545,7 @@ class _UserDetailsPageState extends State<UserDetailsPage>
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: const CircleBorder(),
         onPressed: () {},
         child: Icon(
           FluentIcons.add_48_regular,
