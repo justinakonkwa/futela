@@ -48,222 +48,223 @@ class _HomepageState extends State<Homepage>
 
   List<String> images = [
     'assets/house.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
+    'assets/house2.jpg',
+    'assets/house3.avif',
+    'assets/house4.avif',
+    'assets/house5.avif',
+    'assets/house6.avif',
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: Builder(
-            builder: (context) {
-              return IconButton(
-                icon: const Icon(CupertinoIcons.list_bullet_below_rectangle),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            },
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(CupertinoIcons.list_bullet_below_rectangle),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(CupertinoIcons.bell),
           ),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(CupertinoIcons.bell),
-            ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(130),
-            child: Column(
-              children: [
-                sizedbox,
-                sizedbox,
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchScreen(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      width: double.infinity,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Theme.of(context).highlightColor,
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(130),
+          child: Column(
+            children: [
+              sizedbox,
+              sizedbox,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchScreen(),
                       ),
-                      child: Row(
-                        children: [
-                          const Icon(CupertinoIcons.search),
-                          AppText(text: 'Search ...'),
-                          const Spacer(),
-                          const Icon(CupertinoIcons.mic_solid),
-                        ],
-                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Theme.of(context).highlightColor,
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.search),
+                        AppText(text: 'Search ...'),
+                        const Spacer(),
+                        const Icon(CupertinoIcons.mic_solid),
+                      ],
                     ),
                   ),
                 ),
-                TabBar(
-                  automaticIndicatorColorAdjustment: false,
-                  dividerColor: Theme.of(context).highlightColor,
-                  tabAlignment: TabAlignment.center,
-                  unselectedLabelColor: Colors.grey,
-                  padding: EdgeInsets.zero,
-                  indicatorPadding: EdgeInsets.zero,
-                  indicatorColor: Colors.black,
-                  indicatorWeight: 3,
-                  isScrollable: true,
-                  controller: _tabController,
-                  onTap: (int index) {
-                    _pageController.animateToPage(
-                      index,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.linear,
-                    );
-                  },
-                  tabs: const [
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            CupertinoIcons.house,
-                          ),
-                        ),
-                        text: 'House'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Icon(
-                            FontAwesomeIcons.city,
-                          ),
-                        ),
-                        text: 'Apartment'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            FontAwesomeIcons.building,
-                          ),
-                        ),
-                        text: 'Skyscrape'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(CupertinoIcons.house),
-                        ),
-                        text: 'Apartment'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            FontAwesomeIcons.city,
-                          ),
-                        ),
-                        text: 'Apartment'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            FontAwesomeIcons.building,
-                          ),
-                        ),
-                        text: 'Apartment'),
-                    Tab(
-                        icon: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            FontAwesomeIcons.city,
-                          ),
-                        ),
-                        text: 'Apartment'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        drawer: Drawer(
-          width: MediaQuery.of(context).size.width * 0.6,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: const BoxDecoration(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Theme.of(context).highlightColor,
-                    ),
-                    SizedBox(height: 10), // Utilise SizedBox directement
-                    SizedBox(height: 10),
-                    const Text('Futela App', style: TextStyle(fontSize: 18)),
-                  ],
-                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.home),
-                title: const Text('Accueil'),
-                onTap: () {
-                  Navigator.pop(context);
+              TabBar(
+                automaticIndicatorColorAdjustment: false,
+                dividerColor: Theme.of(context).highlightColor,
+                tabAlignment: TabAlignment.center,
+                unselectedLabelColor: Colors.grey,
+                padding: EdgeInsets.zero,
+                indicatorPadding: EdgeInsets.zero,
+                indicatorColor: Colors.black,
+                indicatorWeight: 3,
+                isScrollable: true,
+                controller: _tabController,
+                onTap: (int index) {
+                  _pageController.animateToPage(
+                    index,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.linear,
+                  );
                 },
-              ),
-              ListTile(
-                leading: const Icon(Icons.search),
-                title: const Text('Recherche'),
-                onTap: () {
-                  // Ajoute ta logique de navigation ici
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.category),
-                title: const Text('Catégories'),
-                onTap: () {
-                  // Ajoute ta logique de navigation ici
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('Paramètres'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Déconnexion'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                tabs: const [
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          CupertinoIcons.house,
+                        ),
+                      ),
+                      text: 'House'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Icon(
+                          FontAwesomeIcons.city,
+                        ),
+                      ),
+                      text: 'Apartment'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          FontAwesomeIcons.building,
+                        ),
+                      ),
+                      text: 'Skyscrape'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(CupertinoIcons.house),
+                      ),
+                      text: 'Apartment'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          FontAwesomeIcons.city,
+                        ),
+                      ),
+                      text: 'Apartment'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          FontAwesomeIcons.building,
+                        ),
+                      ),
+                      text: 'Apartment'),
+                  Tab(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          FontAwesomeIcons.city,
+                        ),
+                      ),
+                      text: 'Apartment'),
+                ],
               ),
             ],
           ),
         ),
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          onPageChanged: (int index) {
-            _tabController.animateTo(index);
-          },
-          children: [
-            _buildPage1(),
-            _buildPage1(),
-            _buildPage1(),
-            _buildPage1(),
-            _buildPage1(),
-            _buildPage1(),
-            _buildPage1(),
+      ),
+      drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.6,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: const BoxDecoration(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Theme.of(context).highlightColor,
+                  ),
+                  SizedBox(height: 10), // Utilise SizedBox directement
+                  SizedBox(height: 10),
+                  const Text('Futela App', style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.search),
+              title: const Text('Recherche'),
+              onTap: () {
+                // Ajoute ta logique de navigation ici
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.category),
+              title: const Text('Catégories'),
+              onTap: () {
+                // Ajoute ta logique de navigation ici
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Paramètres'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Déconnexion'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
-        ));
+        ),
+      ),
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        onPageChanged: (int index) {
+          _tabController.animateTo(index);
+        },
+        children: [
+          _buildPage1(),
+          _buildPage1(),
+          _buildPage1(),
+          _buildPage1(),
+          _buildPage1(),
+          _buildPage1(),
+          _buildPage1(),
+        ],
+      ),
+    );
   }
 
   // Dans la classe _HomepageState
@@ -280,7 +281,7 @@ class _HomepageState extends State<Homepage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 250.0, // Hauteur du conteneur
+                height: 300.0, // Hauteur du conteneur
                 decoration: BoxDecoration(
                   color: Colors.blueAccent.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
@@ -329,7 +330,11 @@ class _HomepageState extends State<Homepage>
                     size: 16,
                   ),
                   Spacer(),
-                  Icon(Icons.star,size: 20,),sizedbox2,
+                  Icon(
+                    Icons.star,
+                    size: 20,
+                  ),
+                  sizedbox2,
                   AppTextLarge(
                     text: '5.0',
                     size: 16,
@@ -345,7 +350,8 @@ class _HomepageState extends State<Homepage>
               ),
               Row(
                 children: [
-                  AppTextLarge(text: '2 500\$',size: 16),sizedbox2,
+                  AppTextLarge(text: '2 500\$', size: 16),
+                  sizedbox2,
                   AppText(text: 'par mois.'),
                 ],
               )

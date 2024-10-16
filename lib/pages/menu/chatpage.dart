@@ -27,19 +27,24 @@ class _ChatpageState extends State<Chatpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.black12,
-              child: Icon(
-                CupertinoIcons.tickets_fill,
-                color: Colors.grey,
-                size: 40,
-              ),
-            ),
+            // const CircleAvatar(
+            //   radius: 40,
+            //   backgroundColor: Colors.black12,
+            //   child: Icon(
+            //     CupertinoIcons.,
+            //     color: Colors.grey,
+            //     size: 40,
+            //   ),
+            // ),
             AppTextLarge(
               text:
-                  "Connecte-toi ou crée un compte pour avant de publier une annonce !",
+                  "Connecte-vous pour consulter les messages",
               size: 16,
+              textAlign: TextAlign.center,
+            ),
+            AppText(
+              text:
+              "Une fois votre connexion effectuée, les messages des hôtes apparaitront ici.",
               textAlign: TextAlign.center,
             ),
             sizedbox,
@@ -58,7 +63,7 @@ class _ChatpageState extends State<Chatpage> {
                 );
               },
               child: AppText(
-                text: "S'inscrire ou se connecter",
+                text: "Connexion",
                 color: Colors.white,
               ),
             ),

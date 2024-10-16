@@ -1,10 +1,10 @@
 {
   "get_started": "Get Started",
   "menu": {
-    "menu_1": "Home",
-    "menu_2": "Chat",
-    "menu_3": "Image",
-    "menu_4": "Settings"
+    "menu_1": "Explorer",
+    "menu_2": "Favoris",
+    "menu_3": "Chat",
+    "menu_4": "Profil"
   },
   "title": {
     "title_1": "Today",

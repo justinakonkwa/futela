@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:futela/pages/menu/chatpage.dart';
 import 'package:futela/pages/menu/homepage.dart';
 import 'package:futela/pages/menu/userpage.dart';
@@ -19,6 +20,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _widgetOptions = <Widget>[
     Homepage(),
     Chatpage(),
+    Chatpage(),
     UserDetailsPage(),
   ];
 
@@ -32,19 +34,23 @@ class _MainPageState extends State<MainPage> {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         // backgroundColor: CupertinoColors.systemBackground,
-        activeColor: Theme.of(context).colorScheme.onBackground,
+        activeColor: Theme.of(context).colorScheme.primary,
         inactiveColor: CupertinoColors.inactiveGray,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
+            icon: Icon(CupertinoIcons.search),
             label: translate("menu.menu_1"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chat_bubble_text),
+            icon: Icon(Icons.favorite_border_rounded),
             label: translate("menu.menu_2"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.gear_big),
+            icon: Icon(CupertinoIcons.chat_bubble_text),
+            label: translate("menu.menu_3"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.person),
             label: translate("menu.menu_4"),
           ),
         ],

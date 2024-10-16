@@ -1,10 +1,10 @@
 {
   "get_started": "Commencer",
   "menu": {
-    "menu_1": "Acceuil",
-    "menu_2": "Dépenses",
-    "menu_3": "image",
-    "menu_4": "Paramètres"
+    "menu_1": "Explorer",
+    "menu_2": "Favoris",
+    "menu_3": "Chat",
+    "menu_4": "profil"
   },
   "title": {
     "title_1": "Aujourd'hui",

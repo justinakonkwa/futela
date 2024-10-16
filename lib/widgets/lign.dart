@@ -16,7 +16,7 @@ class Lign extends StatelessWidget {
         thickness: 1,
         indent: indent,
         endIndent: endIndent,
-        color:Colors.black
+        color:Theme.of(context).highlightColor
       ),
     );
   }
