@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: localizationDelegate.supportedLocales,
           locale: localizationDelegate.currentLocale,
           theme: provider.themeData,
-          initialRoute: '/intro',
+          initialRoute: '/main',
           routes: {
             '/intro': (context) => Intro(),
             '/main': (context) => MainPage(),

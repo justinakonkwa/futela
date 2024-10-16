@@ -24,8 +24,7 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     super.initState();
-    currentIndex =
-        widget.initialIndex;
+    currentIndex = widget.initialIndex;
   }
 
   @override
@@ -41,12 +40,12 @@ class _MainPageState extends State<MainPage> {
             label: translate("menu.menu_1"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add_circled_solid),
+            icon: Icon(CupertinoIcons.chat_bubble_text),
             label: translate("menu.menu_2"),
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.gear_big),
-            label: translate("menu.menu_3"),
+            label: translate("menu.menu_4"),
           ),
         ],
         onTap: (index) {

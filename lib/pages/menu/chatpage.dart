@@ -18,48 +18,52 @@ class _ChatpageState extends State<Chatpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppText(text: 'Add Annonce',),
+        title: AppText(
+          text: 'Chat',
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.black12,
-            child: Icon(
-              CupertinoIcons.tickets_fill,
-              color: Colors.grey,
-              size: 40,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.black12,
+              child: Icon(
+                CupertinoIcons.tickets_fill,
+                color: Colors.grey,
+                size: 40,
+              ),
             ),
-          ),
-          AppTextLarge(
-            text:
-            "Connecte-toi ou crée un compte pour avant de publier une annonce !",
-            size: 16,
-            textAlign: TextAlign.center,
-          ),
-          sizedbox,
-          NextButton(
-            height: 40,
-            color: Colors.black,
-            width: 200,
-            onTap: () {
-              showModalBottomSheet(
-                backgroundColor: Theme.of(context).colorScheme.background,
-                context: context,
-                isScrollControlled: true,
-                builder: (BuildContext context) {
-                  return Container(
-                      child: LoginPage());
-                },
-              );
-            },
-            child: AppText(
-              text: "S'inscrire ou se connecter",
-              color: Colors.white,
+            AppTextLarge(
+              text:
+                  "Connecte-toi ou crée un compte pour avant de publier une annonce !",
+              size: 16,
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
+            sizedbox,
+            NextButton(
+              height: 40,
+              color: Colors.black,
+              width: 200,
+              onTap: () {
+                showModalBottomSheet(
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return Container(child: LoginPage());
+                  },
+                );
+              },
+              child: AppText(
+                text: "S'inscrire ou se connecter",
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
