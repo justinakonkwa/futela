@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:futela/pages/menu/homepage.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
@@ -8,9 +8,10 @@ import 'package:futela/widgets/constantes.dart';
 import 'package:futela/widgets/lign.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({
-    Key? key,
-  }) : super(key: key);
+  final List<String> imagePath;
+  final int index;
+
+  const ProductPage({super.key, required this.imagePath, required this.index});
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -20,14 +21,6 @@ class _ProductPageState extends State<ProductPage> {
   int selectedImage = 0;
   late PageController pageController;
   double _currentAspectRatio = 1.0;
-
-  final List<String> imagePath = [
-    'assets/house.jpg',
-    'assets/house2.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
-    'assets/house.jpg',
-  ];
 
   final List<int> colorValue = [
     0xFF123456,
@@ -51,7 +44,7 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath.isEmpty || colorValue.isEmpty) {
+    if (widget.imagePath.isEmpty || colorValue.isEmpty) {
       return const Scaffold(
         body: Center(
           child: Text('Aucune donnée disponible'),
@@ -74,7 +67,7 @@ class _ProductPageState extends State<ProductPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ShowPicture(
-                            imagePath: imagePath,
+                            imagePath: widget.imagePath,
                             index: selectedImage,
                           ),
                         ),
@@ -84,10 +77,10 @@ class _ProductPageState extends State<ProductPage> {
                       child: AspectRatio(
                         aspectRatio: 16 / 14,
                         child: PageView.builder(
-                          itemCount: imagePath.length,
+                          itemCount: widget.imagePath.length,
                           controller: pageController,
                           onPageChanged: (int index) {
-                            _updateAspectRatio(imagePath[index]);
+                            _updateAspectRatio(widget.imagePath[index]);
                             setState(() {
                               selectedImage = index;
                             });
@@ -101,7 +94,7 @@ class _ProductPageState extends State<ProductPage> {
                                 bottomRight: Radius.circular(20),
                               ),
                               child: Image.asset(
-                                imagePath[index],
+                                widget.imagePath[index],
                                 fit: BoxFit.cover,
                               ),
                             );
@@ -110,39 +103,54 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.black,
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Homepage(),
+                                ),
+                              );
+                            },
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 20,
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                        Spacer(),
-                        const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                          child: Icon(
-                            Icons.share_outlined,
-                            color: Colors.black,
+                          const Spacer(),
+                          const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20,
+                            child: Icon(
+                              Icons.share_outlined,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        sizedbox2,
-                        const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                          child: Icon(
-                            Icons.favorite_border_rounded,
-                            color: Colors.black,
+                          sizedbox2,
+                          const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20,
+                            child: Icon(
+                              Icons.favorite_border_rounded,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   // Sélecteur d'images en bas
@@ -158,7 +166,7 @@ class _ProductPageState extends State<ProductPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ...List.generate(imagePath.length, (index) {
+                            ...List.generate(widget.imagePath.length, (index) {
                               return GestureDetector(
                                 onTap: () {
                                   pageController.animateToPage(
@@ -166,7 +174,7 @@ class _ProductPageState extends State<ProductPage> {
                                     duration: const Duration(milliseconds: 300),
                                     curve: Curves.easeInOut,
                                   );
-                                  _updateAspectRatio(imagePath[index]);
+                                  _updateAspectRatio(widget.imagePath[index]);
                                   setState(() {
                                     selectedImage = index;
                                   });
@@ -195,7 +203,7 @@ class _ProductPageState extends State<ProductPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      imagePath[index],
+                                      widget.imagePath[index],
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -227,16 +235,15 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         sizedbox,
                         sizedbox,
-
                         Row(
                           children: [
-
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius:BorderRadius.circular(10),
-                                  border: Border.all()
-                              ),
-                              height: 30,width: 30.0,child: Icon(CupertinoIcons.location_solid),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all()),
+                              height: 30,
+                              width: 30.0,
+                              child: const Icon(CupertinoIcons.location_solid),
                             ),
                             sizedbox2,
                             AppTextLarge(
@@ -245,7 +252,6 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                           ],
                         ),
-
                         Row(
                           children: [
                             AppText(text: '4 Salons,  '),
@@ -255,12 +261,12 @@ class _ProductPageState extends State<ProductPage> {
                           ],
                         ),
                         sizedbox,
-                        Lign(indent: 20, endIndent: 20),
+                        const Lign(indent: 20, endIndent: 20),
                         Row(
                           children: [
                             CircleAvatar(
                               backgroundColor: Theme.of(context).highlightColor,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.person,
                                 color: Colors.black,
                               ),
@@ -279,24 +285,23 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).highlightColor,
-                                child: Icon(Icons.phone)),
+                                child: const Icon(Icons.phone)),
                           ],
                         ),
-                        Lign(indent: 20, endIndent: 20),
-
+                        const Lign(indent: 20, endIndent: 20),
                         Row(
                           children: [
-
                             Container(
                               decoration: BoxDecoration(
-                              borderRadius:BorderRadius.circular(10),
-                                border: Border.all()
-                              ),
-                              height: 30,width: 30.0,child: Icon(Icons.house),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all()),
+                              height: 30,
+                              width: 30.0,
+                              child: const Icon(Icons.house),
                             ),
                             sizedbox2,
                             AppTextLarge(
@@ -312,60 +317,55 @@ class _ProductPageState extends State<ProductPage> {
                               sizedbox,
                               Row(
                                 children: [
-                                  Icon(Icons.image_outlined),
+                                  const Icon(Icons.image_outlined),
                                   sizedbox2,
                                   AppText(text: 'Vue sur le montagne'),
                                 ],
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.image_outlined),
+                                  const Icon(Icons.image_outlined),
                                   sizedbox2,
                                   AppText(text: 'Vue sur la vallee'),
                                 ],
                               ),
-                              SizedBox(height: 5),
-
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.food_bank_sharp),
+                                  const Icon(Icons.food_bank_sharp),
                                   sizedbox2,
                                   AppText(text: 'cuisine'),
                                 ],
                               ),
-                              SizedBox(height: 5),
-
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.car_repair_rounded),
+                                  const Icon(Icons.car_repair_rounded),
                                   sizedbox2,
                                   AppText(text: 'Parking'),
                                 ],
                               ),
-                              SizedBox(height: 5),
-
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.generating_tokens),
+                                  const Icon(Icons.generating_tokens),
                                   sizedbox2,
                                   AppText(text: 'Genereateur de secrours'),
                                 ],
                               ),
-                              SizedBox(height: 5),
-
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.electric_bolt),
+                                  const Icon(Icons.electric_bolt),
                                   sizedbox2,
                                   AppText(text: 'Electricité'),
                                 ],
                               ),
-                              SizedBox(height: 5),
-
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.wifi),
+                                  const Icon(Icons.wifi),
                                   sizedbox2,
                                   AppText(text: 'Wifi'),
                                 ],
@@ -373,104 +373,6 @@ class _ProductPageState extends State<ProductPage> {
                             ],
                           ),
                         ),
-
-                        // Container(
-                        //   padding: const EdgeInsets.all(10),
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: borderRadius,
-                        //     border: Border.all(color: Colors.grey),
-                        //   ),
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //       Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           AppTextLarge(
-                        //             text: 'Caracteristique',
-                        //             textAlign: TextAlign.start,
-                        //           ),
-                        //           AppTextLarge(
-                        //             text: '650 \$',
-                        //             color:
-                        //                 Theme.of(context).colorScheme.primary,
-                        //           )
-                        //         ],
-                        //       ),
-                        //       sizedbox,
-                        //       AppText(
-                        //           text:
-                        //               'Maison à louer : 2 chambres, 1 salon, 1 salle de bains, cuisine équipée. Située dans un quartier calme avec jardin/cour et parking. Proche des commodités (écoles, supermarchés, transports).'),
-                        //       sizedbox,
-                        //       Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                 Icons.bed,
-                        //                 size: 40,
-                        //               ),
-                        //               AppText(text: '2 ch')
-                        //             ],
-                        //           ),
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                 FontAwesomeIcons.couch,
-                        //               ),
-                        //               sizedbox2,
-                        //               AppText(text: '2 Sln')
-                        //             ],
-                        //           ),
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                 FontAwesomeIcons.shower,
-                        //               ),
-                        //               AppText(text: '2 Slb')
-                        //             ],
-                        //           )
-                        //         ],
-                        //       ),
-                        //       sizedbox,
-                        //       sizedbox,
-                        //       Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                 FontAwesomeIcons.utensils,
-                        //               ),
-                        //               AppText(text: '2 P')
-                        //             ],
-                        //           ),
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                   FontAwesomeIcons.squareParking),
-                        //               AppText(text: '2 p')
-                        //             ],
-                        //           ),
-                        //           Row(
-                        //             children: [
-                        //               const Icon(
-                        //                 FontAwesomeIcons.map,
-                        //                 size: 20,
-                        //               ),
-                        //               AppText(text: '2 m2')
-                        //             ],
-                        //           )
-                        //         ],
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
                         sizedbox,
                         sizedbox,
                       ],

@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:futela/pages/menu/chatpage.dart';
 import 'package:futela/pages/menu/homepage.dart';
 import 'package:futela/pages/menu/userpage.dart';
 
 class MainPage extends StatefulWidget {
   final int initialIndex;
+
   const MainPage({this.initialIndex = 0});
 
   @override
@@ -24,33 +25,41 @@ class _MainPageState extends State<MainPage> {
     UserDetailsPage(),
   ];
 
+  @override
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex;
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        // backgroundColor: CupertinoColors.systemBackground,
+        border: Border(),
+        backgroundColor: Colors.white,
         activeColor: Theme.of(context).colorScheme.primary,
         inactiveColor: CupertinoColors.inactiveGray,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search),
+            icon: const Icon(CupertinoIcons.search),
             label: translate("menu.menu_1"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_rounded),
+            icon: const Icon(Icons.favorite_border_rounded),
             label: translate("menu.menu_2"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chat_bubble_text),
+            icon: const Icon(CupertinoIcons.chat_bubble_text),
             label: translate("menu.menu_3"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
+            icon: const Icon(CupertinoIcons.person),
             label: translate("menu.menu_4"),
           ),
         ],

@@ -24,7 +24,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold(body:
+
+      SingleChildScrollView(
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
@@ -205,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       ),
-    );
+      ));
   }
 }
 

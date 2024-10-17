@@ -46,17 +46,29 @@ class _HomepageState extends State<Homepage>
     super.dispose();
   }
 
-  List<String> images = [
-    'assets/house.jpg',
-    'assets/house2.jpg',
-    'assets/house3.avif',
-    'assets/house4.avif',
-    'assets/house5.avif',
-    'assets/house6.avif',
-  ];
+  Map<String, List<String>> categoryImages = {
+    'House': [
+      'assets/house.jpg',
+      'assets/house3.avif',
+      'assets/house.jpg',
+      'assets/house.jpg',
+    ],
+    'Apartment': [
+      'assets/house2.jpg',
+      'assets/house2.jpg',
+      'assets/house2.jpg',
+    ],
+    'Skyscraper': [
+      'assets/house2.jpg',
+      'assets/house3.avif',
+      'assets/house3.avif',
+    ],
+  };
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
@@ -82,7 +94,7 @@ class _HomepageState extends State<Homepage>
               sizedbox,
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -93,7 +105,7 @@ class _HomepageState extends State<Homepage>
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     width: double.infinity,
                     height: 40,
                     decoration: BoxDecoration(
@@ -132,7 +144,9 @@ class _HomepageState extends State<Homepage>
                 tabs: const [
                   Tab(
                       icon: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
+                        padding: EdgeInsets.only(
+                          bottom: 10.0,
+                        ),
                         child: Icon(
                           CupertinoIcons.house,
                         ),
@@ -255,28 +269,29 @@ class _HomepageState extends State<Homepage>
           _tabController.animateTo(index);
         },
         children: [
-          _buildPage1(),
-          _buildPage1(),
-          _buildPage1(),
-          _buildPage1(),
-          _buildPage1(),
-          _buildPage1(),
-          _buildPage1(),
+          _buildPage1('House'),
+          _buildPage1('Apartment'),
+          _buildPage1('Skyscraper'),
+          _buildPage1('Apartment'), // Modifie en fonction de tes catégories
+          _buildPage1('Skyscraper'),
+          _buildPage1('Apartment'),
+          _buildPage1('House'),
         ],
       ),
     );
   }
 
   // Dans la classe _HomepageState
-  Widget _buildPage1() {
-    // Créez un nouveau contrôleur pour chaque instance de _buildPage1
+  Widget _buildPage1(String category) {
     final PageController innerPageController = PageController();
+    List<String> images =
+        categoryImages[category]!; // Récupère les images de la catégorie
 
     return ListView.builder(
       itemCount: 10, // Nombre de conteneurs
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -290,22 +305,32 @@ class _HomepageState extends State<Homepage>
                   alignment: Alignment.bottomCenter,
                   children: [
                     PageView.builder(
-                      controller:
-                          innerPageController, // Utilisation du nouveau contrôleur
-                      itemCount: images.length, // Nombre d'images
+                      controller: innerPageController,
+                      itemCount: images.length,
                       itemBuilder: (context, imageIndex) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    images[imageIndex]), // Image correspondante
-                                fit: BoxFit
-                                    .cover, // L'image prend tout le conteneur
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductPage(
+                                  imagePath: images,
+                                  index: index,
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(
-                                  10), // Ajout de coins arrondis
+                            );
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(images[imageIndex]),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         );
@@ -323,14 +348,15 @@ class _HomepageState extends State<Homepage>
                   ],
                 ),
               ),
+              sizedbox,
               Row(
                 children: [
                   AppTextLarge(
-                    text: 'Kitambo, kinshasa',
+                    text: 'Kitambo, Kinshasa DRC',
                     size: 16,
                   ),
-                  Spacer(),
-                  Icon(
+                  const Spacer(),
+                  const Icon(
                     Icons.star,
                     size: 20,
                   ),
@@ -341,12 +367,11 @@ class _HomepageState extends State<Homepage>
                   )
                 ],
               ),
-              Row(
-                children: [
-                  AppText(text: 'Professionnel.'),
-                  sizedbox2,
-                  AppText(text: 'Posté: 12/12/2025'),
-                ],
+              AppText(text: 'Professionnel.'),
+              sizedbox2,
+              AppText(text: '12-12-2025'),
+              const SizedBox(
+                height: 5.0,
               ),
               Row(
                 children: [
@@ -354,7 +379,7 @@ class _HomepageState extends State<Homepage>
                   sizedbox2,
                   AppText(text: 'par mois.'),
                 ],
-              )
+              ),
             ],
           ),
         );

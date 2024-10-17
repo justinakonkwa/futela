@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           initialRoute: '/main',
           routes: {
             '/intro': (context) => Intro(),
-            '/main': (context) => ProductPage(),
+            '/main': (context) => MainPage()
           },
         );
       },
