@@ -239,8 +239,11 @@ class _ProductPageState extends State<ProductPage> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all()),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                              ),
                               height: 30,
                               width: 30.0,
                               child: const Icon(CupertinoIcons.location_solid),
@@ -265,6 +268,7 @@ class _ProductPageState extends State<ProductPage> {
                         Row(
                           children: [
                             CircleAvatar(
+                              radius: 25,
                               backgroundColor: Theme.of(context).highlightColor,
                               child: const Icon(
                                 Icons.person,
@@ -287,9 +291,13 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             const Spacer(),
                             CircleAvatar(
+                                radius: 25,
                                 backgroundColor:
                                     Theme.of(context).highlightColor,
-                                child: const Icon(Icons.phone)),
+                                child: const Icon(
+                                  Icons.phone,
+                                  size: 35.0,
+                                )),
                           ],
                         ),
                         const Lign(indent: 20, endIndent: 20),
@@ -298,7 +306,8 @@ class _ProductPageState extends State<ProductPage> {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all()),
+                                  border: Border.all(
+                                      color: Theme.of(context).highlightColor)),
                               height: 30,
                               width: 30.0,
                               child: const Icon(Icons.house),
@@ -311,13 +320,23 @@ class _ProductPageState extends State<ProductPage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
+                          padding: const EdgeInsets.only(left: 0.0),
                           child: Column(
                             children: [
                               sizedbox,
                               Row(
                                 children: [
-                                  const Icon(Icons.image_outlined),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.image_outlined,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Vue sur le montagne'),
                                 ],
@@ -325,7 +344,17 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.image_outlined),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.image_outlined,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Vue sur la vallee'),
                                 ],
@@ -333,7 +362,17 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.food_bank_sharp),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.food_bank_sharp,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'cuisine'),
                                 ],
@@ -341,7 +380,17 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.car_repair_rounded),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.car_repair_rounded,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Parking'),
                                 ],
@@ -349,7 +398,17 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.generating_tokens),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.generating_tokens,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Genereateur de secrours'),
                                 ],
@@ -357,7 +416,17 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.electric_bolt),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.electric_bolt,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Electricité'),
                                 ],
@@ -365,13 +434,87 @@ class _ProductPageState extends State<ProductPage> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.wifi),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.wifi,
+                                    ),
+                                  ),
                                   sizedbox2,
                                   AppText(text: 'Wifi'),
                                 ],
                               ),
                             ],
                           ),
+                        ),
+                        sizedbox,
+                        sizedbox,
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                              ),
+                              height: 30,
+                              width: 30.0,
+                              child: const Icon(
+                                CupertinoIcons.location_solid,
+                              ),
+                            ),
+                            sizedbox2,
+                            AppTextLarge(
+                              text: 'Où se situe le logemenet',
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 38.0),
+                          child: AppText(
+                            text: 'Oulad Berhil, Sous-Massa-Draa, Maroc',
+                          ),
+                        ),
+                        sizedbox,
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 5.0, right: 0.0),
+                              width: double.maxFinite,
+                              height: 250.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).highlightColor,
+                                border: Border.all(
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                              ),
+                              height: 40,
+                              width: 40.0,
+                              child: const Icon(
+                                CupertinoIcons.location_solid,
+                                size: 30,
+                              ),
+                            ),
+                          ],
                         ),
                         sizedbox,
                         sizedbox,
