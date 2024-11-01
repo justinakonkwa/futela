@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:futela/pages/menu/Favoris_page.dart';
 import 'package:futela/pages/menu/chatpage.dart';
 import 'package:futela/pages/menu/homepage.dart';
 import 'package:futela/pages/menu/userpage.dart';
@@ -18,10 +19,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
-  final List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _pages = const [
     Homepage(),
-    Chatpage(),
-    Chatpage(),
+    FavorisPage(),
+    ChatPage(),
     UserDetailsPage(),
   ];
 
@@ -32,30 +33,38 @@ class _MainPageState extends State<MainPage> {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        border: Border(),
-        backgroundColor: Colors.white,
-        activeColor: Theme.of(context).colorScheme.primary,
-        inactiveColor: CupertinoColors.inactiveGray,
+    return Scaffold(
+      body: _pages[
+          currentIndex], // Affiche la page correspondant à l'onglet actuel
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        currentIndex: currentIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed, // Désactive les animations
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
         items: [
           BottomNavigationBarItem(
             icon: const Icon(CupertinoIcons.search),
             label: translate("menu.menu_1"),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite_border_rounded),
+            icon: const Icon(CupertinoIcons.heart),
             label: translate("menu.menu_2"),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.chat_bubble_text),
+            icon: const Icon(CupertinoIcons.chat_bubble_2),
             label: translate("menu.menu_3"),
           ),
           BottomNavigationBarItem(
@@ -63,19 +72,7 @@ class _MainPageState extends State<MainPage> {
             label: translate("menu.menu_4"),
           ),
         ],
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
       ),
-      tabBuilder: (context, index) {
-        return CupertinoTabView(
-          builder: (context) {
-            return _widgetOptions[index];
-          },
-        );
-      },
     );
   }
 }

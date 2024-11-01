@@ -1,21 +1,26 @@
+// chat_page.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:futela/modeles/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:futela/authentification/login_page.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
 import 'package:futela/widgets/constantes.dart';
 
-class Chatpage extends StatefulWidget {
-  const Chatpage({super.key});
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
 
   @override
-  State<Chatpage> createState() => _ChatpageState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatpageState extends State<Chatpage> {
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: AppText(
@@ -27,43 +32,67 @@ class _ChatpageState extends State<Chatpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // const CircleAvatar(
-            //   radius: 40,
-            //   backgroundColor: Colors.black12,
-            //   child: Icon(
-            //     CupertinoIcons.,
-            //     color: Colors.grey,
-            //     size: 40,
-            //   ),
-            // ),
-            AppTextLarge(
-              text:
-                  "Connecte-vous pour consulter les messages",
-              size: 16,
-              textAlign: TextAlign.center,
-            ),
-            AppText(
-              text:
-              "Une fois votre connexion effectuée, les messages des hôtes apparaitront ici.",
-              textAlign: TextAlign.center,
+            userProvider.isLoggedIn
+                ? Column(
+              children: [
+                AppTextLarge(
+                  text:
+                  "Bienvenue, ${userProvider.currentUserData!['name']}!",
+                  size: 16,
+                  textAlign: TextAlign.center,
+                ),
+                AppText(
+                  text: "Voici vos messages :",
+                  textAlign: TextAlign.center,
+                ),
+                // Ajoutez ici une liste de messages ou d'autres informations
+              ],
+            )
+                : Column(
+              children: [
+                const Icon(
+                  CupertinoIcons.chat_bubble_2,
+                  size: 50,
+                ),
+                AppTextLarge(
+                  text: "Connectez-vous pour consulter les messages",
+                  size: 16,
+                  textAlign: TextAlign.center,
+                ),
+                sizedbox,
+                AppText(
+                  text:
+                  "Une fois votre connexion effectuée, les messages des hôtes apparaîtront ici.",
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
             sizedbox,
             NextButton(
               height: 40,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.primary,
               width: 200,
               onTap: () {
-                showModalBottomSheet(
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return Container(child: LoginPage());
-                  },
-                );
+                if (userProvider.isLoggedIn) {
+                  userProvider.logout();
+                } else {
+                  showModalBottomSheet(
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return LoginPage(onLoginSuccess: (userData) {
+                        userProvider.login(
+                          userData['username'],
+                          userData['password'],
+                        );
+                      });
+                    },
+                  );
+                }
               },
               child: AppText(
-                text: "Connexion",
+                text: userProvider.isLoggedIn ? "Déconnexion" : "Connexion",
                 color: Colors.white,
               ),
             ),

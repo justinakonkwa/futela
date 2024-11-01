@@ -1,38 +1,88 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/authentification/signup_page.dart';
+import 'package:futela/main_page.dart';
+import 'package:futela/modeles/user_provider.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
 import 'package:futela/widgets/constantes.dart';
 import 'package:futela/widgets/textfield.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+    final Function? onLoginSuccess; // Paramètre de rappel
+
+  const LoginPage({Key? key, this.onLoginSuccess}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+
   bool visibility = false;
   bool isLoading = false;
 
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // String? _errorMessage;
+  // Future<void> _login() async {
+  //   final String url = 'http://futela.com/api/login';
+  //   final response = await http.post(
+  //     Uri.parse(url),
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({
+  //       'username': _usernameController.text,
+  //       'password': _passwordController.text,
+  //     }),
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     // Traitez la réponse en cas de succès
+  //     final data = jsonDecode(response.body);
+  //
+  //     // Sauvegardez les données dans SharedPreferences
+  //     final prefs = await SharedPreferences.getInstance();
+  //     await prefs.setString('userData', jsonEncode(data['data'])); // Sauvegarde des données utilisateur
+  //     await prefs.setBool('isLoggedIn', true); // Marque l'utilisateur comme connecté
+  //
+  //     // Appelle la fonction de succès de connexion si elle est définie
+  //     if (widget.onLoginSuccess != null) {
+  //       widget.onLoginSuccess!(data['data']);
+  //     }
+  //
+  //     // Redirige vers la page d'accueil en réinitialisant la pile de navigation
+  //     Navigator.of(context).pushAndRemoveUntil(
+  //       MaterialPageRoute(builder: (context) => MainPage()), // Remplacez HomePage par votre page d'accueil
+  //           (Route<dynamic> route) => false,
+  //     );
+  //   } else {
+  //     // Traitez les erreurs
+  //     setState(() {
+  //       _errorMessage = 'Erreur de connexion: ${response.statusCode}';
+  //     });
+  //     print('Erreur: ${response.body}'); // Affiche l'erreur
+  //   }
+  // }
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:
+    final userProvider = Provider.of<UserProvider>(context);
 
-      SingleChildScrollView(
+    return
+
+    SingleChildScrollView(
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.brown[50],
             ),
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 10, bottom: 50),
@@ -76,14 +126,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 30),
                 buildTextField(context,
-                    controller: _phoneNumberController,
-                    placeholder: 'Enter your number',
-                    isNumber: true),
+                    controller: _usernameController,
+                    placeholder: 'Entrer votre username',
+                    isNumber: false),
                 const SizedBox(height: 20),
                 buildTextField(
                   context,
                   controller: _passwordController,
-                  placeholder: 'Enter your password',
+                  placeholder: 'Entrer votre password',
                   isNumber: false,
                   suffix: const Padding(
                     padding: EdgeInsets.only(right: 15),
@@ -94,13 +144,31 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 NextButton(
-                  onTap: () {},
+                  onTap: ()async{ setState(() => isLoading = true);
+                  await userProvider.login(
+                    _usernameController.text,
+                    _passwordController.text,
+                  );
+                  setState(() => isLoading = false);
+
+                  if (userProvider.isLoggedIn) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                          (Route<dynamic> route) => false,
+                    );
+                  }},
                   color: Colors.black,
                   child: AppTextLarge(
                     text: 'Connexion',
                     color: Colors.white,
                   ),
                 ),
+                if (userProvider.errorMessage != null)
+                  Text(
+                    userProvider.errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+
                 sizedbox,
                 sizedbox,
                 Row(
@@ -121,15 +189,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
+
                 sizedbox,
                 sizedbox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     NextButton(
+
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       width: MediaQuery.of(context).size.width * 0.4,
-                      color: Colors.white,
+                      color: Theme.of(context).highlightColor,
                       onTap: () {},
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     NextButton(
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      color: Colors.white,
+                      color: Theme.of(context).highlightColor,
                       width: MediaQuery.of(context).size.width * 0.4,
                       onTap: () {},
                       child: Row(
@@ -202,233 +272,159 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
-              ],
+]
             ),
           );
         },
       ),
-      ));
+    );
   }
 }
 
+
+
+
+
+//
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert'; // Pour le décodage JSON
+// import 'package:futela/widgets/app_text.dart';
+// import 'package:futela/widgets/constantes.dart';
+// import 'package:shared_preferences/shared_preferences.dart'; // Pour SharedPreferences
+//
 // class LoginPage extends StatefulWidget {
-//   const LoginPage({super.key});
+//   final Function? onLoginSuccess; // Paramètre de rappel
+//
+//   const LoginPage({Key? key, this.onLoginSuccess}) : super(key: key);
 //
 //   @override
-//   State<LoginPage> createState() => _LoginPageState();
+//   _LoginPageState createState() => _LoginPageState();
 // }
 //
 // class _LoginPageState extends State<LoginPage> {
-//   TextEditingController numbercontroller = TextEditingController();
+//   final TextEditingController _usernameController = TextEditingController();
+//   final TextEditingController _passwordController = TextEditingController();
+//   String? _errorMessage;
+//
+//   Future<void> _login() async {
+//     final String url = 'http://futela.com/api/login';
+//     final response = await http.post(
+//       Uri.parse(url),
+//       headers: {'Content-Type': 'application/json'},
+//       body: jsonEncode({
+//         'username': _usernameController.text,
+//         'password': _passwordController.text,
+//       }),
+//     );
+//
+//     if (response.statusCode == 200) {
+//       // Traitez la réponse en cas de succès
+//       final data = jsonDecode(response.body);
+//
+//       // Sauvegardez les données dans SharedPreferences
+//       final prefs = await SharedPreferences.getInstance();
+//       await prefs.setString('userData', jsonEncode(data['data'])); // Sauvegarde des données utilisateur
+//
+//       // Appelle la fonction de succès de connexion si elle est définie
+//       if (widget.onLoginSuccess != null) {
+//         widget.onLoginSuccess!(data['data']);
+//       }
+//
+//       // Fermez le modal et revenez à la page de chat
+//       Navigator.pop(context); // Fermez le modal
+//     } else {
+//       // Traitez les erreurs
+//       setState(() {
+//         _errorMessage = 'Erreur de connexion: ${response.statusCode}';
+//       });
+//       print('Erreur: ${response.body}'); // Affiche l'erreur
+//     }
+//   }
+//
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       body: SingleChildScrollView(
-//         child: Container(
-//           constraints: BoxConstraints(
-//             maxHeight: MediaQuery.of(context).size.height,
-//             maxWidth: double.maxFinite,
-//
-//           ),
-//           color: Colors.brown[50],
-//           // decoration: const BoxDecoration(
-//           //   gradient: LinearGradient(
-//           //     colors: [
-//           //       Colors.blueGrey,
-//           //       Colors.blueGrey,
-//           //     ],
-//           //     begin: Alignment.topLeft,
-//           //     end: Alignment.centerRight,
-//           //   ),
-//           // ),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               Expanded(
-//                 flex: 2,
-//                 child: Padding(
-//                   padding:
-//                       const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     mainAxisAlignment: MainAxisAlignment.end,
-//                     children: [
-//                       AppTextLarge(
-//                         text: 'Sign in to your',
-//                         size: 30,
-//                       ),
-//                       AppTextLarge(
-//                         text: 'compte',
-//                         size: 30,
-//                       ),
-//                       sizedbox,
-//                       sizedbox,
-//                       AppText(
-//                         text: 'Sign in to your compte',
-//                       ),
-//                     ],
-//                   ),
-//                 ),
+//       appBar: AppBar(
+//         title: AppText(text: 'Connexion'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             TextField(
+//               controller: _usernameController,
+//               decoration: InputDecoration(
+//                 labelText: 'Nom d\'utilisateur',
+//                 errorText: _errorMessage,
 //               ),
-//               Expanded(
-//                 flex: 4,
-//                 child: Container(
-//                   decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.only(
-//                       topLeft: Radius.circular(30),
-//                       topRight: Radius.circular(30),
-//                     ),
-//                     color: Colors.brown[50],
-//                   ),
-//                   width: double.maxFinite,
-//                   child: Padding(
-//                     padding: const EdgeInsets.symmetric(
-//                         vertical: 25.0, horizontal: 15.0),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.center,
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         buildTextField(context,
-//                             controller: numbercontroller,
-//                             placeholder: 'Enter your number',
-//                             isNumber: true),
-//                         sizedbox,
-//                         sizedbox,
-//                         buildTextField(
-//                           context,
-//                           controller: numbercontroller,
-//                           placeholder: 'Enter your password',
-//                           isNumber: false,
-//                           suffix: Padding(
-//                             padding: const EdgeInsets.only(right: 15),
-//                             child: Icon(
-//                               CupertinoIcons.eye_slash,
-//                             ),
-//                           ),
-//                         ),
-//                         sizedbox,
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.end,
-//
-//                           children: [
-//                             AppText(
-//                               text: 'Forgot password',
-//                             ),
-//                           ],
-//                         ),
-//                         sizedbox,
-//                         sizedbox,
-//                         sizedbox,
-//                         sizedbox,
-//                         NextButton(
-//                           onTap: () {},
-//                           color: Colors.white,
-//                           child: AppTextLarge(
-//                             text: 'Register',
-//                           ),
-//                         ),
-//                         sizedbox,
-//                         sizedbox,
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             Container(
-//                               width: MediaQuery.of(context).size.width * 0.30,
-//                               height: 1,
-//                               color: Colors.grey,
-//                             ),
-//                             sizedbox2,
-//                             AppText(text: 'Or login with'),
-//                             sizedbox2,
-//                             Container(
-//                               width: MediaQuery.of(context).size.width * 0.30,
-//                               height: 1,
-//                               color: Colors.grey,
-//                             ),
-//                           ],
-//                         ),
-//                         sizedbox,
-//                         sizedbox,
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                           children: [
-//                             NextButton(
-//                               padding: EdgeInsets.only(left: 15.0, right: 15.0),
-//                               width: MediaQuery.of(context).size.width * 0.4,
-//                               color: Colors.white,
-//                               onTap: () {},
-//                               child: Row(
-//                                 mainAxisAlignment:
-//                                     MainAxisAlignment.spaceEvenly,
-//                                 children: [
-//                                   Container(
-//                                     height: 30,
-//                                     child: Image(
-//                                       image: AssetImage(
-//                                         'assets/google.png',
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   AppTextLarge(
-//                                     text: 'Google',
-//                                     size: 16,
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                             NextButton(
-//                               padding: EdgeInsets.only(left: 15.0, right: 15.0),
-//                               color: Colors.white,
-//                               width: MediaQuery.of(context).size.width * 0.4,
-//                               onTap: () {},
-//                               child: Row(
-//                                 mainAxisAlignment:
-//                                     MainAxisAlignment.spaceEvenly,
-//                                 children: [
-//                                   Container(
-//                                     alignment: Alignment.center,
-//                                     height: 30,
-//                                     child: Image(
-//                                       image: AssetImage(
-//                                         'assets/apple.png',
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   AppTextLarge(
-//                                     text: 'Apple',
-//                                     size: 16,
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         Expanded(child: Container()),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             AppText(text: 'I have an account?'),
-//                             GestureDetector(
-//                               onTap: (){
-//                                 Navigator.pushNamed(context, '/signup');
-//                               },
-//                               child: AppText(
-//                                 text: 'Login',
-//                                 color: Colors.blue,
-//                               ),
-//                             ),
-//                           ],
-//                         )
-//                       ],
-//                     ),
-//                   ),
-//                 ),
+//             ),
+//             SizedBox(height: 10),
+//             TextField(
+//               controller: _passwordController,
+//               decoration: InputDecoration(
+//                 labelText: 'Mot de passe',
+//                 errorText: _errorMessage,
+//               ),
+//               obscureText: true,
+//             ),
+//             SizedBox(height: 20),
+//             ElevatedButton(
+//               onPressed: _login,
+//               child: Text('Se connecter'),
+//             ),
+//             if (_errorMessage != null) ...[
+//               SizedBox(height: 20),
+//               Text(
+//                 _errorMessage!,
+//                 style: TextStyle(color: Colors.red),
 //               ),
 //             ],
-//           ),
+//           ],
 //         ),
 //       ),
 //     );
 //   }
 // }
+// class UserInfoPage extends StatelessWidget {
+//   final Map<String, dynamic> userData;
+//
+//   UserInfoPage({required this.userData});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Informations Utilisateur'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text('Nom : ${userData['name']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+//             SizedBox(height: 8),
+//             Text('Email : ${userData['email']}', style: TextStyle(fontSize: 16)),
+//             SizedBox(height: 8),
+//             Text('Téléphone : ${userData['phone']}', style: TextStyle(fontSize: 16)),
+//             SizedBox(height: 8),
+//             Text('Adresse : ${userData['address']}', style: TextStyle(fontSize: 16)),
+//             SizedBox(height: 20),
+//             ElevatedButton(
+//               onPressed: () {
+//                 // Action pour modifier les informations, si nécessaire
+//               },
+//               child: Text('Modifier les informations'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+// user_provider.dart
+
+
+// user_provider.dart
+

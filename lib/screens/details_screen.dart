@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:futela/main_page.dart';
 import 'package:futela/pages/menu/homepage.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
@@ -115,12 +116,13 @@ class _ProductPageState extends State<ProductPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.pop(context);
+                              /*Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Homepage(),
+                                  builder: (context) => MainPage(),
                                 ),
-                              );
+                              );*/
                             },
                             child: const CircleAvatar(
                               backgroundColor: Colors.white,

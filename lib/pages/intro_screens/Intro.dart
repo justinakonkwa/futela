@@ -35,7 +35,7 @@ class _IntroState extends State<Intro> {
       }
       _controller.animateToPage(
         _currentPage,
-        duration: const Duration(milliseconds: 5000),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     });
@@ -44,7 +44,9 @@ class _IntroState extends State<Intro> {
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startTimer();
+    });
   }
 
   @override
@@ -90,32 +92,43 @@ class _IntroState extends State<Intro> {
                     ),
                     last
                         ? NextButton(
+                            width: 80,
+                            height: 40,
+                            color: Theme.of(context).colorScheme.primary,
                             onTap: () {
                               Navigator.pushNamedAndRemoveUntil(
                                   context, '/main', (route) => false);
                             },
                             child: AppText(
                               text: "START",
+                              color: Colors.white,
                             ),
                           )
                         : NextButton(
+                            width: 80,
+                            height: 40,
+                            color: Theme.of(context).colorScheme.primary,
                             onTap: () => setState(() {
                               last = (_currentPage == 2);
                               _currentPage = _currentPage + 1;
                               _controller.animateToPage(
                                 _currentPage,
-                                duration: const Duration(milliseconds: 800),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                               );
                             }),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 AppText(
                                   text: 'NEXT',
+                                  color: Colors.white,
                                 ),
                                 sizedbox2,
                                 const Icon(
                                   FluentIcons.arrow_right_48_regular,
+                                  color: Colors.white,
                                 )
                               ],
                             ),

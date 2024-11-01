@@ -16,14 +16,13 @@ class Assets {
   static const String i18nRu = 'assets/i18n/ru.json';
 
   // --------- intro -------------
-  static const String introIntro1 = 'assets/house.jpg';
-  static const String introIntro2 = 'assets/house2.jpg';
-  static const String introIntro3 = 'assets/house.jpg';
-  static const String introIntro4 = 'assets/house2.jpg';
-  static const String introIntro5 = 'assets/house.jpg';
-  static const String introIntro6 = 'assets/house2.jpg';
-  static const String introIntro7 = 'assets/house.jpg';
-  static const String introIntro8 = 'assets/house2.jpg';
-  static const String introIntro9 = 'assets/house.jpg';
+  static const String introIntro1 = 'assets/house3.avif';
+  static const String introIntro2 = 'assets/house4.avif';
+  static const String introIntro3 = 'assets/house3.avif';
+  static const String introIntro4 = 'assets/house4.avif';
+  static const String introIntro5 = 'assets/house4.avif';
+  static const String introIntro6 = 'assets/house5.avif';
+  static const String introIntro7 = 'assets/house3.avif';
+  static const String introIntro8 = 'assets/house3.avif';
+  static const String introIntro9 = 'assets/house3.avif';
 }
-
