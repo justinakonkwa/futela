@@ -97,7 +97,7 @@ class _HomepageState extends State<Homepage>
               sizedbox,
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -155,7 +155,7 @@ class _HomepageState extends State<Homepage>
                           CupertinoIcons.house,
                         ),
                       ),
-                      text: 'House'),
+                      text: 'Maison'),
                   Tab(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10),
@@ -171,7 +171,7 @@ class _HomepageState extends State<Homepage>
                           FontAwesomeIcons.building,
                         ),
                       ),
-                      text: 'Skyscrape'),
+                      text: 'Salle de fete'),
                   Tab(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10.0),
@@ -289,7 +289,7 @@ class _HomepageState extends State<Homepage>
   Widget _buildPage1(String category) {
     final PageController innerPageController = PageController();
     List<String> images =
-        categoryImages[category]!; // Récupère les images de la catégorie
+    categoryImages[category]!; // Récupère les images de la catégorie
 
     return ListView.builder(
       itemCount: 10, // Nombre de conteneurs
@@ -326,7 +326,7 @@ class _HomepageState extends State<Homepage>
                           },
                           child: Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            const EdgeInsets.symmetric(horizontal: 0.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -384,6 +384,7 @@ class _HomepageState extends State<Homepage>
                   AppText(text: 'par mois.'),
                 ],
               ),
+
             ],
           ),
         );
@@ -410,7 +411,7 @@ class _HomepageState extends State<Homepage>
     );
   }
 }
-
+//
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -457,7 +458,7 @@ class _HomepageState extends State<Homepage>
 //   // Charger toutes les catégories avec leurs articles associés
 //   Future<void> fetchCategoriesWithArticles() async {
 //     try {
-//       final response = await http.get(Uri.parse('http://futela.com/api/types'));
+//       final response = await http.get(Uri.parse('http://www.futela.com/api/categories'));
 //       if (response.statusCode == 200) {
 //         final data = json.decode(response.body);
 //         setState(() {

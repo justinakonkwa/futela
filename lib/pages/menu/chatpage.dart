@@ -17,6 +17,17 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  // Liste des messages de chat simulés
+  List<Map<String, String>> messages = [
+    {'sender': 'User', 'message': 'Bonjour, comment ça va ?'},
+    {'sender': 'Host', 'message': 'Ça va bien, merci! Et toi ?'},
+    {'sender': 'User', 'message': 'Tout va bien, merci pour demander !'},
+    {'sender': 'Host', 'message': 'Super! Que puis-je faire pour vous ?'},
+    {'sender': 'User', 'message': 'Je voulais discuter de mon projet.'},
+    {'sender': 'User', 'message': 'Je voulais discuter de mon projet.'},
+    {'sender': 'User', 'message': 'Je voulais discuter de mon projet.'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -35,20 +46,57 @@ class _ChatPageState extends State<ChatPage> {
             userProvider.isLoggedIn
                 ? Column(
               children: [
-                AppTextLarge(
-                  text:
-                  "Bienvenue, ${userProvider.currentUserData!['name']}!",
-                  size: 16,
-                  textAlign: TextAlign.center,
+                // AppTextLarge(
+                //   text:
+                //   "Bienvenue, ${userProvider.currentUserData!['name']}!",
+                //   size: 16,
+                //   textAlign: TextAlign.center,
+                // ),
+                // AppText(
+                //   text: "Voici vos messages :",
+                //   textAlign: TextAlign.center,
+                // ),
+                // Afficher les messages dans un ListView
+                Container(
+                  alignment: Alignment.topLeft,
+                  height: 300, // Taille du conteneur du chat
+                  child: ListView.builder(
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index];
+                      final isUserMessage = message['sender'] == 'User';
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+
+                          alignment: isUserMessage
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: isUserMessage
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey[300],
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: AppText(
+                              text: message['message']!,
+                              color: isUserMessage
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                AppText(
-                  text: "Voici vos messages :",
-                  textAlign: TextAlign.center,
-                ),
-                // Ajoutez ici une liste de messages ou d'autres informations
               ],
             )
                 : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Icon(
                   CupertinoIcons.chat_bubble_2,
@@ -68,34 +116,34 @@ class _ChatPageState extends State<ChatPage> {
               ],
             ),
             sizedbox,
-            NextButton(
-              height: 40,
-              color: Theme.of(context).colorScheme.primary,
-              width: 200,
-              onTap: () {
-                if (userProvider.isLoggedIn) {
-                  userProvider.logout();
-                } else {
-                  showModalBottomSheet(
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) {
-                      return LoginPage(onLoginSuccess: (userData) {
-                        userProvider.login(
-                          userData['username'],
-                          userData['password'],
-                        );
-                      });
-                    },
-                  );
-                }
-              },
-              child: AppText(
-                text: userProvider.isLoggedIn ? "Déconnexion" : "Connexion",
-                color: Colors.white,
-              ),
-            ),
+            // NextButton(
+            //   height: 40,
+            //   color: Theme.of(context).colorScheme.primary,
+            //   width: 200,
+            //   onTap: () {
+            //     if (userProvider.isLoggedIn) {
+            //       userProvider.logout();
+            //     } else {
+            //       showModalBottomSheet(
+            //         backgroundColor: Theme.of(context).colorScheme.background,
+            //         context: context,
+            //         isScrollControlled: true,
+            //         builder: (BuildContext context) {
+            //           return LoginPage(onLoginSuccess: (userData) {
+            //             userProvider.login(
+            //               userData['username'],
+            //               userData['password'],
+            //             );
+            //           });
+            //         },
+            //       );
+            //     }
+            //   },
+            //   child: AppText(
+            //     text: userProvider.isLoggedIn ? "Déconnexion" : "Connexion",
+            //     color: Colors.white,
+            //   ),
+            // ),
           ],
         ),
       ),

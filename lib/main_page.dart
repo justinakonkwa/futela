@@ -19,7 +19,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages =  [
     Homepage(),
     FavorisPage(),
     ChatPage(),

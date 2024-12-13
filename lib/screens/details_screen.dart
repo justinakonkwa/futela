@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:futela/main_page.dart';
 import 'package:futela/pages/menu/homepage.dart';
+import 'package:futela/screens/reserve_screen.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
@@ -535,9 +536,9 @@ class _ProductPageState extends State<ProductPage> {
             color: Theme.of(context).highlightColor,
           ),
         ),
-        height: 70,
+        height: 100,
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
+          padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -553,9 +554,21 @@ class _ProductPageState extends State<ProductPage> {
               NextButton(
                 width: 150.0,
                 color: Theme.of(context).colorScheme.primary,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReserveScreen(
+                        imagePath: widget.imagePath,
+                        index: widget.index,
+
+                      ),
+                    ),
+                  );
+                },
                 child: AppTextLarge(
                   text: 'Réserver',
+                  color: Colors.white,
                   size: 16,
                 ),
               ),

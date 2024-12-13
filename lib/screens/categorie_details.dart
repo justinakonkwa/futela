@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:futela/pages/menu/homepage.dart';
+import 'package:futela/screens/add.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/constantes.dart';
@@ -30,7 +31,7 @@ class _CategorieDetailsState extends State<CategorieDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Homepage(),
+                        builder: (context) => PostArticlePage(),
                       ),
                     );
                   },
