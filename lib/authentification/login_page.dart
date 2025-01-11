@@ -35,13 +35,16 @@ class _LoginPageState extends State<LoginPage> {
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom, // Ajuste le padding en bas
+        bottom: MediaQuery.of(context)
+            .viewInsets
+            .bottom, // Ajuste le padding en bas
       ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 50),
+        padding:
+            const EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 50),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -111,22 +114,23 @@ class _LoginPageState extends State<LoginPage> {
                 if (userProvider.isLoggedIn) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => MainPage()),
-                        (Route<dynamic> route) => false,
+                    (Route<dynamic> route) => false,
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(userProvider.errorMessage ?? 'Login failed.')),
+                    SnackBar(
+                        content:
+                            Text(userProvider.errorMessage ?? 'Login failed.')),
                   );
                 }
               },
-
               color: Colors.black,
               child: isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : AppTextLarge(
-                text: 'Login',
-                color: Colors.white,
-              ),
+                      text: 'Login',
+                      color: Colors.white,
+                    ),
             ),
             if (userProvider.errorMessage != null)
               Text(
@@ -220,10 +224,14 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.pop(context);
                     showModalBottomSheet(
+                      scrollControlDisabledMaxHeightRatio:
+                          MediaQuery.of(context).size.height * 0.2,
                       context: context,
-                      isScrollControlled: true,
                       builder: (BuildContext context) {
-                        return  SignupPage();
+                        return Container(
+                          color: Colors.transparent,
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            child: SignUpPage());
                       },
                     );
                   },

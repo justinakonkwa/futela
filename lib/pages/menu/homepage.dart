@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:futela/modeles/user_provider.dart';
 import 'package:futela/screens/details_screen.dart';
 import 'package:futela/screens/search_screen.dart';
+import 'package:futela/screens/user.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/constantes.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -25,7 +31,7 @@ class _HomepageState extends State<Homepage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this); // Ajusté à 7
+    _tabController = TabController(length: 5, vsync: this);
 
     _pageControllers = PageController();
     // Écoutez les changements de page
@@ -67,6 +73,27 @@ class _HomepageState extends State<Homepage>
       'assets/house3.avif',
       'assets/house3.avif',
     ],
+    'Salle de fête': [
+      'assets/house4.avif',
+      'assets/house5.avif',
+      'assets/house2.jpg',
+      'assets/house3.avif',
+      'assets/house3.avif',
+    ],
+    'Terrain': [
+      'assets/house4.avif',
+      'assets/house5.avif',
+      'assets/house2.jpg',
+      'assets/house3.avif',
+      'assets/house3.avif',
+    ],
+    'Voiture': [
+      'assets/house4.avif',
+      'assets/house5.avif',
+      'assets/house2.jpg',
+      'assets/house3.avif',
+      'assets/house3.avif',
+    ],
   };
 
   @override
@@ -83,10 +110,28 @@ class _HomepageState extends State<Homepage>
             );
           },
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(CupertinoIcons.bell),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              final userId = Provider.of<UserProvider>(context, listen: false)
+                  .currentUserData?['id'];
+              if (userId != null) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UserProfilePage(userId: userId),
+                  ),
+                );
+              } else {
+                // Affichez un message ou gérez le cas où l'ID est introuvable
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Utilisateur non connecté.')),
+                );
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(CupertinoIcons.bell),
+            ),
           ),
         ],
         bottom: PreferredSize(
@@ -97,7 +142,7 @@ class _HomepageState extends State<Homepage>
               sizedbox,
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -135,7 +180,7 @@ class _HomepageState extends State<Homepage>
                 padding: EdgeInsets.zero,
                 indicatorPadding: EdgeInsets.zero,
                 indicatorColor: Theme.of(context).colorScheme.inverseSurface,
-                indicatorWeight: 3,
+                indicatorWeight: 2,
                 isScrollable: true,
                 controller: _tabController,
                 onTap: (int index) {
@@ -160,7 +205,7 @@ class _HomepageState extends State<Homepage>
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10),
                         child: Icon(
-                          FontAwesomeIcons.city,
+                          FontAwesomeIcons.hotel,
                         ),
                       ),
                       text: 'Apartment'),
@@ -168,40 +213,24 @@ class _HomepageState extends State<Homepage>
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10.0),
                         child: Icon(
-                          FontAwesomeIcons.building,
+                          FontAwesomeIcons.gift,
                         ),
                       ),
                       text: 'Salle de fete'),
                   Tab(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10.0),
-                        child: Icon(CupertinoIcons.house),
+                        child: Icon(FontAwesomeIcons.mapMarkerAlt),
                       ),
-                      text: 'Apartment'),
+                      text: 'Terrain'),
                   Tab(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 10.0),
                         child: Icon(
-                          FontAwesomeIcons.city,
+                          FontAwesomeIcons.car,
                         ),
                       ),
-                      text: 'Apartment'),
-                  Tab(
-                      icon: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: Icon(
-                          FontAwesomeIcons.building,
-                        ),
-                      ),
-                      text: 'Apartment'),
-                  Tab(
-                      icon: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: Icon(
-                          FontAwesomeIcons.city,
-                        ),
-                      ),
-                      text: 'Apartment'),
+                      text: 'Voiture'),
                 ],
               ),
             ],
@@ -232,7 +261,9 @@ class _HomepageState extends State<Homepage>
               leading: const Icon(Icons.home),
               title: const Text('Accueil'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CategoriesPage()));
+                // Navigator.pop(context);
               },
             ),
             ListTile(
@@ -289,7 +320,7 @@ class _HomepageState extends State<Homepage>
   Widget _buildPage1(String category) {
     final PageController innerPageController = PageController();
     List<String> images =
-    categoryImages[category]!; // Récupère les images de la catégorie
+        categoryImages[category]!; // Récupère les images de la catégorie
 
     return ListView.builder(
       itemCount: 10, // Nombre de conteneurs
@@ -326,7 +357,7 @@ class _HomepageState extends State<Homepage>
                           },
                           child: Padding(
                             padding:
-                            const EdgeInsets.symmetric(horizontal: 0.0),
+                                const EdgeInsets.symmetric(horizontal: 0.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -384,7 +415,6 @@ class _HomepageState extends State<Homepage>
                   AppText(text: 'par mois.'),
                 ],
               ),
-
             ],
           ),
         );
@@ -411,6 +441,189 @@ class _HomepageState extends State<Homepage>
     );
   }
 }
+
+class CategoriesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Future<List<Map<String, dynamic>>> fetchCategories() async {
+      final String url = 'http://futela.com/api/categories';
+
+      try {
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Décodage de la réponse JSON
+          final data = jsonDecode(response.body);
+
+          print('Données parsées: $data'); // Journal pour vérifier le contenu
+
+          // Vérifiez que 'categories' est une liste
+          if (data is List) {
+            return data.map((category) {
+              return {
+                'id': category['id'], // Laisser `id` comme String
+                'name': category['name'], // Nom de la catégorie
+              };
+            }).toList();
+          } else {
+            throw Exception(
+                'La clé "categories" ne contient pas une liste valide.');
+          }
+        } else {
+          throw Exception(
+              'Erreur ${response.statusCode}: Impossible de charger les catégories.');
+        }
+      } catch (e) {
+        print('Erreur réseau: $e');
+        throw Exception('Erreur réseau: $e');
+      }
+    }
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Catégories'),
+        ),
+        body: FutureBuilder<List<Map<String, dynamic>>>(
+          future: fetchCategories(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Erreur: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(child: Text('Aucune catégorie disponible.'));
+            }
+
+            final categories = snapshot.data!;
+            return ListView.builder(
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CategoryDetailsPage(categoryId: category['id']),
+                      ),
+                    );
+                  },
+
+                  leading: CircleAvatar(
+                    child: Text(
+                        category['name'].substring(0, 1)), // Initiale du nom
+                  ),
+                  title: Text(category['name']),
+                  subtitle:
+                      Text('ID: ${category['id']}'), // Affiche l'ID complet
+                );
+              },
+            );
+          },
+        ));
+  }
+}
+
+class CategoryDetailsPage extends StatelessWidget {
+  final String categoryId;
+
+  CategoryDetailsPage({required this.categoryId});
+
+  @override
+  Widget build(BuildContext context) {
+    Future<Map<String, dynamic>> fetchCategoryDetails(String id) async {
+      final String url = 'http://futela.com/api/categories/$id';
+
+      try {
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Décodage de la réponse JSON
+          final data = jsonDecode(response.body);
+          print('Détails de la catégorie: $data');
+          return data; // Retourne les détails de la catégorie
+        } else {
+          throw Exception(
+              'Erreur ${response.statusCode}: Impossible de charger les détails.');
+        }
+      } catch (e) {
+        print('Erreur réseau: $e');
+        throw Exception('Erreur réseau: $e');
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Détail de la Catégorie'),
+      ),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchCategoryDetails(categoryId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Erreur: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('Détail introuvable.'));
+          }
+
+          final categoryDetails = snapshot.data!;
+          final properties = categoryDetails['properties'] as List<dynamic>;
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Nom: ${categoryDetails['name']}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text('ID: ${categoryDetails['id']}',
+                      style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 20),
+                  Text(
+                    'Propriétés:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  ...properties.map((property) {
+                    return Card(
+                      elevation: 3,
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      child: ListTile(
+                        leading: property['cover'] != null
+                            ? Image.network(
+                                'http://futela.com/uploads/${property['cover']}',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              )
+                            : Icon(Icons.image_not_supported),
+                        title: Text(property['title']),
+                        subtitle: Text(
+                            property['description'] ?? 'Aucune description'),
+                        trailing: Icon(
+                          property['available'] ? Icons.check : Icons.close,
+                          color:
+                              property['available'] ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 //
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
