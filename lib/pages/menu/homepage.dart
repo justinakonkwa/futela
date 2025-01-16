@@ -118,7 +118,7 @@ class _HomepageState extends State<Homepage>
               if (userId != null) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => UserProfilePage(userId: userId),
+                    builder: (context) => UserProfilePage(),
                   ),
                 );
               } else {

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfilePage extends StatefulWidget {
-  final int userId; // ID de l'utilisateur passé en paramètre
-
-  UserProfilePage({required this.userId});
-
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
 }
@@ -23,19 +20,40 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Future<void> fetchUserData() async {
-    final String url = 'http://futela.com/api/app/users/${widget.userId}';
+    final String url = 'http://futela.com/api/app/auth/profile'; // API endpoint
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final token = await _getToken();
+
+      if (token == null) {
+        setState(() {
+          errorMessage = 'Token non trouvé. Veuillez vous reconnecter.';
+          isLoading = false;
+        });
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
       if (response.statusCode == 200) {
         setState(() {
           userData = jsonDecode(response.body);
           isLoading = false;
         });
+      } else if (response.statusCode == 401) {
+        setState(() {
+          errorMessage = 'Session expirée. Veuillez vous reconnecter.';
+        });
+        _redirectToLogin();
       } else {
         setState(() {
-          errorMessage = 'Erreur: ${response.statusCode}';
+          errorMessage = 'Erreur: ${response.statusCode} - ${response.body}';
           isLoading = false;
         });
       }
@@ -45,6 +63,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
         isLoading = false;
       });
     }
+  }
+
+  Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  void _redirectToLogin() {
+    Future.delayed(Duration.zero, () {
+      Navigator.pushReplacementNamed(context, '/login');
+    });
   }
 
   @override
@@ -67,7 +96,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 radius: 50,
                 backgroundImage: userData!['cover'] != null
                     ? NetworkImage(userData!['cover'])
-                    : AssetImage('assets/default_user.png') as ImageProvider,
+                    : AssetImage('assets/default_user.png')
+                as ImageProvider,
               ),
             ),
             SizedBox(height: 20),
@@ -89,7 +119,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditUserProfilePage(userData: userData!),
+                      builder: (context) => EditUserProfilePage(
+                        userData: userData!,
+                      ),
                     ),
                   );
                 },
@@ -122,12 +154,15 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
   void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.userData['name']);
-    firstnameController = TextEditingController(text: widget.userData['firstname']);
-    phoneController = TextEditingController(text: widget.userData['phoneNumber']);
+    firstnameController =
+        TextEditingController(text: widget.userData['firstname']);
+    phoneController =
+        TextEditingController(text: widget.userData['phoneNumber']);
   }
 
   Future<void> updateUserProfile() async {
-    final String url = 'http://futela.com/api/app/users/${widget.userData['id']}';
+    final String url =
+        'http://futela.com/api/app/users/${widget.userData['id']}';
 
     try {
       final response = await http.put(
@@ -141,7 +176,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
       );
 
       if (response.statusCode == 200) {
-        Navigator.pop(context, true); // Retourne à la page précédente avec succès
+        Navigator.pop(context, true); // Retourne avec succès
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Erreur: ${response.statusCode}')),

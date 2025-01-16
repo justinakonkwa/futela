@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:futela/authentification/login_page.dart';
 import 'package:futela/modeles/user_provider.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
@@ -36,7 +35,8 @@ class _SignUpPageState extends State<SignUpPage> {
           gender: _gender!,
           password: _passwordController.text,
           commissioner: _isCommissioner,
-          landlord: _isLandlord, context: context,
+          landlord: _isLandlord,
+          context: context,
         );
         Navigator.pushReplacementNamed(context, '/AuthVerification');
       } catch (e) {
@@ -205,10 +205,47 @@ class _SignUpPageState extends State<SignUpPage> {
                       NextButton(
                         color: Theme.of(context).colorScheme.primary,
                         onTap: _submitForm,
-                        child: AppTextLarge(
+                        child: AppText(
                           text: "S\'inscrire",
                           color: Colors.white,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          AppText(
+                              text: "Avez-vous un compte?",
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showModalBottomSheet(
+                                scrollControlDisabledMaxHeightRatio:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    color: Colors.transparent,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: LoginPage(),
+                                  );
+                                },
+                              );
+                            },
+                            child: AppText(
+                              text: 'Se connecter',
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),

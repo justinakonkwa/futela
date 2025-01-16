@@ -137,6 +137,7 @@ class UserProvider with ChangeNotifier {
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('userData', jsonEncode(data['data']));
+        await prefs.setString('userId', data['data']['id'].toString());
         await prefs.setString('token', data['token']);
         await prefs.setBool('isLoggedIn', true);
 
@@ -240,12 +241,78 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  /// Récupère les informations du profil de l'utilisateur
+  Future<void> getUserProfile(BuildContext context) async {
+    final token = await _getToken();
+
+    if (token == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Jeton manquant. Veuillez vous reconnecter.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final String url = '$baseUrl/app/auth/profile';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print('Statut HTTP : ${response.statusCode}');
+      print('Réponse : ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        currentUserData = data['data'];
+        isLoggedIn = true;
+
+        // Mettre à jour les données dans SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userData', jsonEncode(currentUserData));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Profil récupéré avec succès.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur ${response.statusCode} : ${response.body}'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } catch (e) {
+      print('Erreur : $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erreur réseau. Veuillez réessayer.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+
   /// Mise à jour du profil utilisateur
   Future<void> updateUserProfile({
     required BuildContext context,
     required String name,
+    required String lastname,
     required String firstName,
     required String phoneNumber,
+    required String gender
   }) async {
     final token = await _getToken();
 
@@ -285,8 +352,10 @@ class UserProvider with ChangeNotifier {
         },
         body: jsonEncode({
           'name': name,
-          'first_name': firstName,
-          'phone_number': phoneNumber,
+          'firstname': firstName,
+          'lastname': firstName,
+          'phoneNumber': phoneNumber,
+          'gender': phoneNumber,
         }),
       );
 
@@ -332,16 +401,4 @@ class UserProvider with ChangeNotifier {
       );
     }
   }
-
-  // /// Gestion des erreurs HTTP
-  // void _handleErrorResponse(http.Response response) {
-  //   try {
-  //     final errorResponse = jsonDecode(response.body);
-  //     errorMessage =
-  //         errorResponse['message'] ?? 'Erreur: ${response.statusCode}';
-  //     print(response.statusCode);
-  //   } catch (_) {
-  //     errorMessage = 'Erreur inattendue: ${response.statusCode}';
-  //   }
-  // }
 }

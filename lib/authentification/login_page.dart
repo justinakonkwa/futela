@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               children: [
                 AppTextLarge(
-                  text: "LOGIN",
+                  text: "SE CONNECTER",
                   color: Theme.of(context).colorScheme.onBackground,
                   size: 20.0,
                 ),
@@ -80,21 +80,21 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               alignment: Alignment.topLeft,
               child: AppText(
-                text: 'Log in to your account',
+                text: 'Se conncter a votre compte',
               ),
             ),
             const SizedBox(height: 30),
             buildTextField(
               context,
               controller: _usernameController,
-              placeholder: 'Enter your username',
+              placeholder: 'Entrer votre nom d\'utilisateur',
               isNumber: false,
             ),
             const SizedBox(height: 20),
             buildTextField(
               context,
               controller: _passwordController,
-              placeholder: 'Enter your password',
+              placeholder: 'Entrer votre mot de passe',
               isNumber: false,
               suffix: const Padding(
                 padding: EdgeInsets.only(right: 15),
@@ -124,11 +124,11 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 }
               },
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.primary,
               child: isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
-                  : AppTextLarge(
-                      text: 'Login',
+                  : AppText(
+                      text: 'Se connceter',
                       color: Colors.white,
                     ),
             ),
@@ -139,85 +139,85 @@ class _LoginPageState extends State<LoginPage> {
               ),
             sizedbox,
             sizedbox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.30,
-                  height: 1,
-                  color: Colors.grey,
-                ),
-                sizedbox2,
-                AppText(text: 'Or login with'),
-                sizedbox2,
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.30,
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ],
-            ),
-            sizedbox,
-            sizedbox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                NextButton(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  color: Theme.of(context).highlightColor,
-                  onTap: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        height: 30,
-                        child: const Image(
-                          image: AssetImage(
-                            'assets/google.png',
-                          ),
-                        ),
-                      ),
-                      AppTextLarge(
-                        text: 'Google',
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
-                NextButton(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  color: Theme.of(context).highlightColor,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  onTap: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        child: const Image(
-                          image: AssetImage(
-                            'assets/apple.png',
-                          ),
-                        ),
-                      ),
-                      AppTextLarge(
-                        text: 'Apple',
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Container(
+            //       width: MediaQuery.of(context).size.width * 0.30,
+            //       height: 1,
+            //       color: Colors.grey,
+            //     ),
+            //     sizedbox2,
+            //     AppText(text: 'Or login with'),
+            //     sizedbox2,
+            //     Container(
+            //       width: MediaQuery.of(context).size.width * 0.30,
+            //       height: 1,
+            //       color: Colors.grey,
+            //     ),
+            //   ],
+            // ),
+            // sizedbox,
+            // sizedbox,
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     NextButton(
+            //       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            //       width: MediaQuery.of(context).size.width * 0.4,
+            //       color: Theme.of(context).highlightColor,
+            //       onTap: () {},
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Container(
+            //             height: 30,
+            //             child: const Image(
+            //               image: AssetImage(
+            //                 'assets/google.png',
+            //               ),
+            //             ),
+            //           ),
+            //           AppTextLarge(
+            //             text: 'Google',
+            //             size: 16,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //     NextButton(
+            //       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            //       color: Theme.of(context).highlightColor,
+            //       width: MediaQuery.of(context).size.width * 0.4,
+            //       onTap: () {},
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Container(
+            //             alignment: Alignment.center,
+            //             height: 30,
+            //             child: const Image(
+            //               image: AssetImage(
+            //                 'assets/apple.png',
+            //               ),
+            //             ),
+            //           ),
+            //           AppTextLarge(
+            //             text: 'Apple',
+            //             size: 16,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(
               height: 20,
             ),
             Row(
               children: [
                 AppText(
-                    text: "I have an account?",
+                    text: "Vous n'avez pas de compte?",
                     color: Theme.of(context).colorScheme.onBackground),
                 const Spacer(),
                 TextButton(
@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   child: AppText(
-                    text: translate("Signup"),
+                    text: translate("S'inscrire"),
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 )
@@ -248,145 +248,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-//
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert'; // Pour le décodage JSON
-// import 'package:futela/widgets/app_text.dart';
-// import 'package:futela/widgets/constantes.dart';
-// import 'package:shared_preferences/shared_preferences.dart'; // Pour SharedPreferences
-//
-// class LoginPage extends StatefulWidget {
-//   final Function? onLoginSuccess; // Paramètre de rappel
-//
-//   const LoginPage({Key? key, this.onLoginSuccess}) : super(key: key);
-//
-//   @override
-//   _LoginPageState createState() => _LoginPageState();
-// }
-//
-// class _LoginPageState extends State<LoginPage> {
-//   final TextEditingController _usernameController = TextEditingController();
-//   final TextEditingController _passwordController = TextEditingController();
-//   String? _errorMessage;
-//
-//   Future<void> _login() async {
-//     final String url = 'http://futela.com/api/login';
-//     final response = await http.post(
-//       Uri.parse(url),
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({
-//         'username': _usernameController.text,
-//         'password': _passwordController.text,
-//       }),
-//     );
-//
-//     if (response.statusCode == 200) {
-//       // Traitez la réponse en cas de succès
-//       final data = jsonDecode(response.body);
-//
-//       // Sauvegardez les données dans SharedPreferences
-//       final prefs = await SharedPreferences.getInstance();
-//       await prefs.setString('userData', jsonEncode(data['data'])); // Sauvegarde des données utilisateur
-//
-//       // Appelle la fonction de succès de connexion si elle est définie
-//       if (widget.onLoginSuccess != null) {
-//         widget.onLoginSuccess!(data['data']);
-//       }
-//
-//       // Fermez le modal et revenez à la page de chat
-//       Navigator.pop(context); // Fermez le modal
-//     } else {
-//       // Traitez les erreurs
-//       setState(() {
-//         _errorMessage = 'Erreur de connexion: ${response.statusCode}';
-//       });
-//       print('Erreur: ${response.body}'); // Affiche l'erreur
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: AppText(text: 'Connexion'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             TextField(
-//               controller: _usernameController,
-//               decoration: InputDecoration(
-//                 labelText: 'Nom d\'utilisateur',
-//                 errorText: _errorMessage,
-//               ),
-//             ),
-//             SizedBox(height: 10),
-//             TextField(
-//               controller: _passwordController,
-//               decoration: InputDecoration(
-//                 labelText: 'Mot de passe',
-//                 errorText: _errorMessage,
-//               ),
-//               obscureText: true,
-//             ),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: _login,
-//               child: Text('Se connecter'),
-//             ),
-//             if (_errorMessage != null) ...[
-//               SizedBox(height: 20),
-//               Text(
-//                 _errorMessage!,
-//                 style: TextStyle(color: Colors.red),
-//               ),
-//             ],
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-// class UserInfoPage extends StatelessWidget {
-//   final Map<String, dynamic> userData;
-//
-//   UserInfoPage({required this.userData});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Informations Utilisateur'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text('Nom : ${userData['name']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-//             SizedBox(height: 8),
-//             Text('Email : ${userData['email']}', style: TextStyle(fontSize: 16)),
-//             SizedBox(height: 8),
-//             Text('Téléphone : ${userData['phone']}', style: TextStyle(fontSize: 16)),
-//             SizedBox(height: 8),
-//             Text('Adresse : ${userData['address']}', style: TextStyle(fontSize: 16)),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // Action pour modifier les informations, si nécessaire
-//               },
-//               child: Text('Modifier les informations'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-// user_provider.dart
-
-// user_provider.dart
