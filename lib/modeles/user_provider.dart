@@ -141,7 +141,7 @@ class UserProvider with ChangeNotifier {
 
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('userData', jsonEncode(userData));
-          await prefs.setString('userId', userData['id'].toString());
+          await prefs.setString('id', userData['id'].toString());
           await prefs.setString('token', data['token']);
           await prefs.setBool('isLoggedIn', true);
 
