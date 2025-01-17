@@ -50,7 +50,8 @@ class _UserScreenState extends State<UserScreen> {
                     width: 200,
                     onTap: () {
                       showModalBottomSheet(
-                        backgroundColor: Theme.of(context).colorScheme.background,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
                         context: context,
                         isScrollControlled: true,
                         builder: (_) => LoginPage(
@@ -75,23 +76,30 @@ class _UserScreenState extends State<UserScreen> {
               padding: const EdgeInsets.all(16.0),
               child: ListView(
                 children: [
-                  AppTextLarge(text: 'Informations personnelles'),
-                  const SizedBox(height: 20),
+                  AppTextLarge(
+                    text: 'Informations personnelles',
+                    size: 18,
+                  ),
+                  const SizedBox(height: 50),
                   _buildInfoSection('Nom officiel',
                       userInfo['name'] ?? 'Non spécifié', userInfo),
                   _buildInfoSection('Prénom d\'usage',
                       userInfo['firstname'] ?? 'Non spécifié', userInfo),
                   _buildInfoSection('Post nom',
                       userInfo['lastname'] ?? 'Non spécifié', userInfo),
+                  _buildInfoSection('Adresse mail',
+                      userInfo['mail'] ?? 'Non spécifié', userInfo),
                   _buildInfoSection('Numéro de téléphone',
                       userInfo['phoneNumber'] ?? 'Non spécifié', userInfo),
                   _buildInfoSection(
                       'Genre', userInfo['gender'] ?? 'Non spécifié', userInfo),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _updateProfile,
-                    child: const Text('Enregistrer les modifications'),
-                  ),
+                  _buildInfoSection('Adresse',
+                      userInfo['adresse'] ?? 'Non spécifié', userInfo),
+                  // const SizedBox(height: 20),
+                  // ElevatedButton(
+                  //   onPressed: _updateProfile,
+                  //   child: const Text('Enregistrer les modifications'),
+                  // ),
                 ],
               ),
             ),
