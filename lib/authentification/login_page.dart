@@ -229,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return Container(
-                          color: Colors.transparent,
+                            color: Colors.transparent,
                             height: MediaQuery.of(context).size.height * 0.8,
                             child: SignUpPage());
                       },

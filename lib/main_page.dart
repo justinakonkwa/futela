@@ -5,7 +5,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:futela/pages/menu/Favoris_page.dart';
 import 'package:futela/pages/menu/chatpage.dart';
 import 'package:futela/pages/menu/homepage.dart';
-import 'package:futela/pages/menu/userpage.dart';
+import 'package:futela/pages/menu/setting_page.dart';
 
 class MainPage extends StatefulWidget {
   final int initialIndex;
@@ -20,10 +20,10 @@ class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
   final List<Widget> _pages =  [
-    Homepage(),
+    HomePage(),
     FavorisPage(),
     ChatPage(),
-    UserDetailsPage(),
+    SettingPage(),
   ];
 
   @override

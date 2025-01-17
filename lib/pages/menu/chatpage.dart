@@ -45,105 +45,105 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             userProvider.isLoggedIn
                 ? Column(
-              children: [
-                // AppTextLarge(
-                //   text:
-                //   "Bienvenue, ${userProvider.currentUserData!['name']}!",
-                //   size: 16,
-                //   textAlign: TextAlign.center,
-                // ),
-                // AppText(
-                //   text: "Voici vos messages :",
-                //   textAlign: TextAlign.center,
-                // ),
-                // Afficher les messages dans un ListView
-                Container(
-                  alignment: Alignment.topLeft,
-                  height: 300, // Taille du conteneur du chat
-                  child: ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      final isUserMessage = message['sender'] == 'User';
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-
-                          alignment: isUserMessage
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Container(
-                            padding: const EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              color: isUserMessage
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.grey[300],
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: AppText(
-                              text: message['message']!,
-                              color: isUserMessage
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // AppTextLarge(
+                      //   text:
+                      //   "Bienvenue, ${userProvider.currentUserData!['name']}!",
+                      //   size: 16,
+                      //   textAlign: TextAlign.center,
+                      // ),
+                      // AppText(
+                      //   text: "Voici vos messages :",
+                      //   textAlign: TextAlign.center,
+                      // ),
+                      // Afficher les messages dans un ListView
+                      Container(
+                        alignment: Alignment.topLeft,
+                        height: 300, // Taille du conteneur du chat
+                        child: ListView.builder(
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
+                            final isUserMessage = message['sender'] == 'User';
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: isUserMessage
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                child: Container(
+                                  padding: const EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: isUserMessage
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: AppText(
+                                    text: message['message']!,
+                                    color: isUserMessage
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ],
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.chat_bubble_2,
+                          size: 50,
+                        ),
+                        AppTextLarge(
+                          text: "Connectez-vous pour consulter les messages",
+                          size: 16,
+                          textAlign: TextAlign.center,
+                        ),
+                        sizedbox,
+                        AppText(
+                          text:
+                              "Une fois votre connexion effectuée, les messages des hôtes apparaîtront ici.",
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
-                : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Icon(
-                  CupertinoIcons.chat_bubble_2,
-                  size: 50,
-                ),
-                AppTextLarge(
-                  text: "Connectez-vous pour consulter les messages",
-                  size: 16,
-                  textAlign: TextAlign.center,
-                ),
-                sizedbox,
-                AppText(
-                  text:
-                  "Une fois votre connexion effectuée, les messages des hôtes apparaîtront ici.",
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
             sizedbox,
-            // NextButton(
-            //   height: 40,
-            //   color: Theme.of(context).colorScheme.primary,
-            //   width: 200,
-            //   onTap: () {
-            //     if (userProvider.isLoggedIn) {
-            //       userProvider.logout();
-            //     } else {
-            //       showModalBottomSheet(
-            //         backgroundColor: Theme.of(context).colorScheme.background,
-            //         context: context,
-            //         isScrollControlled: true,
-            //         builder: (BuildContext context) {
-            //           return LoginPage(onLoginSuccess: (userData) {
-            //             userProvider.login(
-            //               userData['username'],
-            //               userData['password'],
-            //             );
-            //           });
-            //         },
-            //       );
-            //     }
-            //   },
-            //   child: AppText(
-            //     text: userProvider.isLoggedIn ? "Déconnexion" : "Connexion",
-            //     color: Colors.white,
-            //   ),
-            // ),
+            if (!userProvider.isLoggedIn)
+              NextButton(
+                height: 40,
+                color: Theme.of(context).colorScheme.primary,
+                width: 200,
+                onTap: () {
+                  showModalBottomSheet(
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (_) => LoginPage(
+                      onLoginSuccess: (userData) {
+                        userProvider.login(
+                          userData['username'],
+                          userData['password'],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: AppText(
+                  text: "Connexion",
+                  color: Colors.white,
+                ),
+              ),
           ],
         ),
       ),

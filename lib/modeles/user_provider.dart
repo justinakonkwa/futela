@@ -103,15 +103,15 @@ class UserProvider with ChangeNotifier {
       print('--- Début de la requête d\'inscription ---');
       print('URL : $url');
       print('Données envoyées : ${jsonEncode({
-            'name': name,
-            'lastname': lastname,
-            'firstname': firstname,
-            'phoneNumber': phoneNumber,
-            'gender': gender,
-            'password': password,
-            'commissioner': commissioner,
-            'landLord': landlord,
-          })}');
+        'name': name,
+        'lastname': lastname,
+        'firstname': firstname,
+        'phoneNumber': phoneNumber,
+        'gender': gender,
+        'password': password,
+        'commissioner': commissioner,
+        'landLord': landlord,
+      })}');
 
       final response = await http.post(
         Uri.parse(url),
@@ -135,28 +135,39 @@ class UserProvider with ChangeNotifier {
         final data = jsonDecode(response.body);
         print('Données décodées : $data');
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userData', jsonEncode(data['data']));
-        await prefs.setString('userId', data['data']['id'].toString());
-        await prefs.setString('token', data['token']);
-        await prefs.setBool('isLoggedIn', true);
+        // Vérification de la présence de la clé 'data' dans la réponse
+        if (data.containsKey('data')) {
+          final userData = data['data'];
 
-        currentUserData = data['data'];
-        isLoggedIn = true;
-        errorMessage = null;
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userData', jsonEncode(userData));
+          await prefs.setString('userId', userData['id'].toString());
+          await prefs.setString('token', data['token']);
+          await prefs.setBool('isLoggedIn', true);
 
-        print('Inscription réussie. Utilisateur connecté.');
+          currentUserData = userData;
+          isLoggedIn = true;
+          errorMessage = null;
 
-        _showPopup(
-          context,
-          'Votre inscription a été effectuée avec succès.',
-          Colors.green,
-        );
+          print('Inscription réussie. Utilisateur connecté.');
 
-        Navigator.pushReplacementNamed(context, '/authentication');
+          _showPopup(
+            context,
+            'Votre inscription a été effectuée avec succès.',
+            Colors.green,
+          );
+
+          Navigator.pushReplacementNamed(context, '/authentication');
+        } else {
+          print('Erreur : La clé "data" est absente dans la réponse.');
+          _showPopup(
+            context,
+            'Erreur interne. Impossible de récupérer les données utilisateur.',
+            Colors.red,
+          );
+        }
       } else {
-        print(
-            'Erreur lors de l\'inscription. Code de statut : ${response.statusCode}');
+        print('Erreur lors de l\'inscription. Code de statut : ${response.statusCode}');
         print('Message d\'erreur : ${response.body}');
 
         // Vérifier si le message d'erreur spécifique est renvoyé par l'API
@@ -170,7 +181,7 @@ class UserProvider with ChangeNotifier {
           _handleErrorResponse(response);
           _showPopup(
             context,
-            'Ce numéro de téléphone est déjà utilisé. Veuillez en essayer un autre',
+            'Erreur inconnue. Veuillez vérifier les données et réessayer.',
             Colors.red,
           );
         }
@@ -241,7 +252,6 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   /// Récupère les informations du profil de l'utilisateur
   Future<void> getUserProfile(BuildContext context) async {
     final token = await _getToken();
@@ -304,7 +314,6 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-
   /// Mise à jour du profil utilisateur
   Future<void> updateUserProfile({
     required BuildContext context,
@@ -312,7 +321,9 @@ class UserProvider with ChangeNotifier {
     required String lastname,
     required String firstName,
     required String phoneNumber,
-    required String gender
+    required String gender,
+    bool commissioner = false,
+    bool landLord = false,
   }) async {
     final token = await _getToken();
 
@@ -338,7 +349,7 @@ class UserProvider with ChangeNotifier {
       return;
     }
 
-    final String url = 'http://futela.com/api/app/users/$userId';
+    final String url = '$baseUrl/app/auth/profile';
 
     try {
       print('Token utilisé : $token');
@@ -352,10 +363,12 @@ class UserProvider with ChangeNotifier {
         },
         body: jsonEncode({
           'name': name,
+          'lastname': lastname, // Correction ici
           'firstname': firstName,
-          'lastname': firstName,
           'phoneNumber': phoneNumber,
-          'gender': phoneNumber,
+          'gender': gender, // Correction ici
+          'commissioner': commissioner,
+          'landLord': landLord,
         }),
       );
 
