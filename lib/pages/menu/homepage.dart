@@ -17,8 +17,7 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool isLoading = true;
-  Map<String, Map<String, dynamic>> categories =
-      {}; // Utilisation d'un Map pour associer l'ID à la catégorie
+  Map<String, Map<String, dynamic>> categories = {};
 
   @override
   void initState() {

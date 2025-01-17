@@ -24,7 +24,7 @@ buildTextField(
                 margin: EdgeInsets.zero,
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   // border: Border.all(
                   //   color: Colors.grey,
                   // ),
@@ -47,7 +47,7 @@ buildTextField(
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).highlightColor,
+                      // color: Theme.of(context).highlightColor,
                       borderRadius: borderRadius),
                   height: 50.0,
                   child: CupertinoTextField(
@@ -72,7 +72,8 @@ buildTextField(
         )
       : Container(
           decoration: BoxDecoration(
-              color: Theme.of(context).highlightColor,
+            border: Border.all(color: Theme.of(context).highlightColor,),
+              // color: Theme.of(context).highlightColor,
               borderRadius: borderRadius),
           height: 50,
           child: CupertinoTextField(

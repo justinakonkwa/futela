@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:futela/authentification/login_page.dart';
+import 'package:futela/authentification/signup_page.dart';
 import 'package:futela/authentification/verification.dart';
 import 'package:futela/language/language_preferences.dart';
 import 'package:futela/main_page.dart';
@@ -64,8 +66,11 @@ class _MyAppState extends State<MyApp> {
           initialRoute: '/authentication', // Définir la route initiale
           routes: {
             '/authentication': (context) => AuthVerification(),
+            '/login': (context) => LoginPage(),
+            '/signup': (context) => SignUpPage(),
             '/main': (context) => MainPage(),
             '/chat': (context) => ChatPage(),
+
           },
         );
       },

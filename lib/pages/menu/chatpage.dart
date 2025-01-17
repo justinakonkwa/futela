@@ -125,19 +125,35 @@ class _ChatPageState extends State<ChatPage> {
                 color: Theme.of(context).colorScheme.primary,
                 width: 200,
                 onTap: () {
-                  showModalBottomSheet(
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (_) => LoginPage(
-                      onLoginSuccess: (userData) {
-                        userProvider.login(
-                          userData['username'],
-                          userData['password'],
-                        );
-                      },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(
+                        onLoginSuccess: (userData) {
+                          userProvider.login(
+                            userData['username'],
+                            userData['password'],
+                          );
+                        },
+                      ),
                     ),
                   );
+                  // showModalBottomSheet(
+                  //   backgroundColor: Theme.of(context).colorScheme.background,
+                  //   context: context,
+                  //   isScrollControlled: true,
+                  //   builder: (_) => Container(
+                  //     height: MediaQuery.of(context).size.height * 0.95,
+                  //     child: LoginPage(
+                  //       onLoginSuccess: (userData) {
+                  //         userProvider.login(
+                  //           userData['username'],
+                  //           userData['password'],
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
+                  // );
                 },
                 child: AppText(
                   text: "Connexion",
