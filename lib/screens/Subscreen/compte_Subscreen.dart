@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:futela/authentification/login_page.dart';
+import 'package:futela/modeles/user_provider.dart';
+import 'package:futela/screens/compte_screen.dart';
 import 'package:futela/widgets/app_text.dart';
 import 'package:futela/widgets/app_text_large.dart';
 import 'package:futela/widgets/bouton_next.dart';
@@ -8,6 +12,7 @@ import 'package:futela/widgets/constantes.dart';
 import 'package:futela/widgets/lign.dart';
 import 'package:futela/widgets/textfield.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompteSubscreen extends StatefulWidget {
@@ -96,14 +101,35 @@ class _CompteSubscreenState extends State<CompteSubscreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CompteScreen(),
+                ),
+              );
+            },
+            child: Icon(
+              CupertinoIcons.arrow_left,
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppTextLarge(text: 'Sécurité'),
+            AppTextLarge(
+              text: 'Sécurité',
+            ),
             const SizedBox(height: 50),
             _buildOption(
               title: 'Mot de passe',
@@ -162,6 +188,27 @@ class _CompteSubscreenState extends State<CompteSubscreen> {
               title: 'Désactiver son compte',
               subtitle: 'Désactivé',
               onTap: () {
+                if (userProvider.isLoggedIn) {
+                  userProvider.logout();
+                } else {
+                  CompteSubscreen();
+                  // showModalBottomSheet(
+                  //   backgroundColor: Theme.of(context).colorScheme.background,
+                  //   context: context,
+                  //   isScrollControlled: true,
+                  //   builder: (_) => Container(
+                  //     height: 800,
+                  //     child: LoginPage(
+                  //       onLoginSuccess: (userData) {
+                  //         userProvider.login(
+                  //           userData['username'],
+                  //           userData['password'],
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
+                  // );
+                }
                 // Action pour "Désactiver son compte"
               },
             ),
